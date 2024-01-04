@@ -8,8 +8,7 @@
 		"build": "tsc && vite build",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
-		"prepare": "husky install",
-		"start": "nodemon --exec ts-node api/index.ts"
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "^2.8.2",
@@ -39,8 +38,10 @@
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"husky": "^8.0.3",
+		"nodemon": "^3.0.2",
 		"postcss": "^8.4.32",
 		"tailwindcss": "^3.4.0",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.10"
 	}
