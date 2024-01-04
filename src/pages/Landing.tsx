@@ -1,9 +1,15 @@
 import React from 'react'
-import { useMedia } from '@/hooks/useMedia'
+import { Navbar } from '@/components/landing'
+import { useNavStore } from '@/store/nav'
 
 const Landing: React.FC = () => {
-	const isMobile = useMedia('(max-width: 640px)')
-	return <>{isMobile ? <div>Mobile</div> : <div>Desktop</div>}</>
+	const { navReference } = useNavStore()
+
+	return (
+		<div ref={navReference} className={``}>
+			<Navbar />
+		</div>
+	)
 }
 
 export default Landing
