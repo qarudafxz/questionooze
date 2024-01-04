@@ -4,6 +4,7 @@ export default {
 	theme: {
 		extend: {
 			textColor: {
+				docs: '##111827',
 				primary: '#6519BA',
 				mid: '#6938EF',
 				secondary: '#F670C7'
@@ -15,6 +16,11 @@ export default {
 			},
 			fontFamily: {
 				main: ['Inter', 'sans-serif']
+			},
+			borderColor: {
+				primary: '#6519BA',
+				mid: '#6938EF',
+				secondary: '#F670C7'
 			}
 		}
 	},
