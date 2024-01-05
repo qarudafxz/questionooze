@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Navbar } from '@/components/landing'
 import { useNavStore } from '@/store/nav'
-import bg from '@/assets/bg.svg'
+import bg from '@/assets/bg.png'
 import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
