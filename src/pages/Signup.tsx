@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import logo from '@/assets/logo.png'
 import { Link } from 'react-router-dom'
 import { useMedia } from '@/hooks/useMedia'
 import { Input, Button } from '@chakra-ui/react'
-import { logIn, logInWithOAuth } from '@/api/auth'
-import { useNavigate } from 'react-router-dom'
-import { FcGoogle } from 'react-icons/fc'
-import { check } from '@/utils/check'
+import { signUp } from '@/api/auth'
 import { toast, Toaster } from 'sonner'
+import { check } from '@/utils/check'
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
 	const navigate = useNavigate()
 	const isMobile = useMedia('(max-width: 640px)')
 	const [payload, setPayload] = useState({
+		first_name: '',
+		last_name: '',
 		email: '',
 		password: ''
 	})
@@ -39,25 +40,31 @@ const Login: React.FC = () => {
 						<h1
 							className={`${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-docs`}
 						>
-							Welcome back
+							Hello World
 						</h1>
 						<p className={`${isMobile ? 'text-sm' : 'text-md'} text-zinc-400 mt-1`}>
-							Login to your account
+							Create a new account
 						</p>
-						<div className="mt-4">
-							<Button
-								onClick={logInWithOAuth}
-								className=" w-full text-docs text-center py-2 rounded-md mt-5 flex gap-6 items-center border border-zinc-300 hover:bg-zinc-200 duration-150"
-							>
-								<FcGoogle />
-								Sign up with Google
-							</Button>
-						</div>
 
-						<div className="flex items-center mt-5">
-							<div className="w-full h-[1px] bg-zinc-300" />
-							<p className="mx-3 text-zinc-300 text-xs">OR</p>
-							<div className="w-full h-[1px] bg-zinc-300" />
+						<div className="mt-4">
+							<h1>First Name</h1>
+							<Input
+								type="text"
+								onChange={e => setPayload({ ...payload, first_name: e.target.value })}
+								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-1"
+								variant="flushed"
+								size="lg"
+							/>
+						</div>
+						<div className="mt-4">
+							<h1>Last Name</h1>
+							<Input
+								type="text"
+								onChange={e => setPayload({ ...payload, last_name: e.target.value })}
+								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-1"
+								variant="flushed"
+								size="lg"
+							/>
 						</div>
 						<div className="mt-4">
 							<h1>Email</h1>
@@ -81,46 +88,34 @@ const Login: React.FC = () => {
 						</div>
 						<Button
 							onClick={() => {
-								logIn(payload).then(res => {
-									if (check(res, 'logIn').error) {
-										toast.error(check(res, 'logIn').message)
+								signUp(payload).then(res => {
+									console.log(check(res, 'signUp').error)
+									if (check(res, 'signUp').error) {
+										toast.error(check(res, 'signUp').message as ReactNode)
 									} else {
-										toast.success(check(res, 'logIn').message)
-
-										setTimeout(() => {
-											navigate('/')
-										}, 1900)
+										setTimeout(() => navigate('/login'), 1200)
 									}
 								})
 							}}
 							className="bg-primary w-full text-white text-center py-2 rounded-md mt-5"
 						>
-							Log In
+							Signup
 						</Button>
 						<p className="text-center mt-3 text-zinc-400 text-sm">
-							Don't have an account?{' '}
+							Already had an account?{' '}
 							<Link
-								to="/signup"
+								to="/login"
 								className="font-semibold cursor-pointer text-[#111827]"
 							>
-								Sign Up
+								Log in
 							</Link>
 						</p>
 					</div>
 				</div>
-				<div
-					className=""
-					style={{
-						backgroundImage: `url(https://app.intellecs.ai/static/media/login.1ffae0de798488438d8b.jpg)`,
-						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-						backgroundRepeat: 'no-repeat',
-						width: '100%'
-					}}
-				></div>
+				<div className="bg-black w-full" />
 			</div>
 		</div>
 	)
 }
 
-export default Login
+export default Signup
