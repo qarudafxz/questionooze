@@ -73,12 +73,12 @@ const Navbar: React.FC = () => {
 					{(!isMobile || show) && (
 						<motion.div
 							initial={{ x: 1000 }}
-							animate={{ x: 0 }}
+							animate={{ x: 40, y: 12 }}
 							transition={{ duration: 0.5, type: 'spring', bounce: 0.25 }}
 							exit={{ x: 1000 }}
 							className={`${
 								isMobile
-									? `flex flex-col items-left gap-y-10 border-left h-full border-zinc-300 pl-10`
+									? `flex flex-col items-left gap-y-10 border-left h-full border-zinc-300 p-20 absolute z-10 bg-white`
 									: 'flex items-center gap-x-10'
 							} `}
 						>
