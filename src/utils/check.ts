@@ -1,7 +1,6 @@
 import { User } from '@supabase/supabase-js'
 
 export const check = (data: User, method: string) => {
-	console.log(data)
 	if (typeof data !== 'object') {
 		return {
 			error: true,
