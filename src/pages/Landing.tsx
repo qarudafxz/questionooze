@@ -3,9 +3,8 @@ import { Navbar } from '@/components/landing'
 import { useNavStore } from '@/store/nav'
 import bg from '@/assets/bg.svg'
 import { useMedia } from '@/hooks/useMedia'
-import { FaArrowRight, FaArrowRightLong } from 'react-icons/fa6'
+import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
-import { transition } from '@chakra-ui/react'
 
 const Landing: React.FC = () => {
 	const [hovered, setHovered] = useState(false)
