@@ -66,3 +66,21 @@ export const logInWithOAuth = async (): Promise<any> => {
 		throw new Error('An error occurred during login.')
 	}
 }
+
+export const logOut = async (token: string) => {
+	try {
+		if (!token) {
+			throw new Error('No token provided. Prohibited to do such action')
+		}
+
+		const { error } = await supabase.auth.signOut()
+
+		if (error) {
+			return error?.message
+		}
+
+		return true
+	} catch (err) {
+		throw new Error('An error occurred during logout.')
+	}
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Navbar } from '@/components/landing'
 import { useNavStore } from '@/store/nav'
 import bg from '@/assets/bg.png'
@@ -7,6 +8,7 @@ import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 
 const Landing: React.FC = () => {
+	const navigate = useNavigate()
 	const [hovered, setHovered] = useState(false)
 	const isMobile = useMedia('(max-width: 640px)')
 	const { navReference } = useNavStore()
@@ -52,7 +54,7 @@ const Landing: React.FC = () => {
 					</p>
 					<div className={`flex justify-center items-center gap-8 font-main mt-10`}>
 						<button
-							onClick={() => (window.location.href = '/login')}
+							onClick={() => navigate('/login')}
 							className="bg-mid text-white px-4 py-2 rounded-md font-semibold"
 						>
 							Get Started
