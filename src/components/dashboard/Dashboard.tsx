@@ -1,9 +1,10 @@
 import React from 'react'
-// import { useMedia } from '@/hooks/useMedia'
+import { Navigate } from 'react-router-dom'
 import Nav from './mini/Nav'
+import { useSession } from '@/hooks/useSession'
 
 const Dashboard: React.FC = () => {
-	// const isMobile = useMedia('(max-width: 640px)')
+	const { token } = useSession()
 
 	return (
 		<div className="font-main">

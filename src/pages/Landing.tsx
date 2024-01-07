@@ -5,26 +5,18 @@ import bg from '@/assets/bg.png'
 import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
-import { useSession } from '@/hooks/useSession'
-import Dashboard from '@/components/dashboard/Dashboard'
 
 const Landing: React.FC = () => {
-	const { token } = useSession()
-
 	const [hovered, setHovered] = useState(false)
 	const isMobile = useMedia('(max-width: 640px)')
 	const { navReference } = useNavStore()
-
-	if (token && token?.includes('ey')) {
-		return <Dashboard />
-	}
 
 	return (
 		<div>
 			{/* Hero */}
 			<div
 				ref={navReference}
-				className={``}
+				id="home"
 				style={{
 					backgroundImage: `url(${bg})`,
 					backgroundSize: 'cover',
@@ -84,6 +76,7 @@ const Landing: React.FC = () => {
 				</div>
 			</div>
 			{/* Product */}
+			<div className=""></div>
 		</div>
 	)
 }

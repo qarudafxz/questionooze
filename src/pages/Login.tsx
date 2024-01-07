@@ -88,7 +88,7 @@ const Login: React.FC = () => {
 										toast.success(check(res, 'logIn').message)
 
 										setTimeout(() => {
-											navigate('/')
+											navigate('/dashboard')
 										}, 1900)
 									}
 								})
