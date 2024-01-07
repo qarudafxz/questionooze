@@ -5,7 +5,6 @@ import { useMedia } from '@/hooks/useMedia'
 import { Tooltip } from '@mui/material'
 import logo from '@/assets/logo.png'
 import { IoIosArrowForward } from 'react-icons/io'
-import { MdLogout } from 'react-icons/md'
 
 const Nav: React.FC = () => {
 	const { theme } = useToggle()
