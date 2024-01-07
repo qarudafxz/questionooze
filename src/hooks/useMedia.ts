@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 
 export const useMedia = (query: string): boolean => {
-	console.log(query)
 	const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
 
 	useEffect(() => {

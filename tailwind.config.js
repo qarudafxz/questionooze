@@ -12,7 +12,9 @@ export default {
 			backgroundColor: {
 				primary: '#6519BA',
 				mid: '#6938EF',
-				secondary: '#F670C7'
+				secondary: '#F670C7',
+				light: '#F9FAFB',
+				dark: '#111827'
 			},
 			borderColor: {
 				primary: '#6519BA',

@@ -5,11 +5,19 @@ import bg from '@/assets/bg.png'
 import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
+import { useSession } from '@/hooks/useSession'
+import Dashboard from '@/components/dashboard/Dashboard'
 
 const Landing: React.FC = () => {
+	const { token } = useSession()
+
 	const [hovered, setHovered] = useState(false)
 	const isMobile = useMedia('(max-width: 640px)')
 	const { navReference } = useNavStore()
+
+	if (token && token?.includes('ey')) {
+		return <Dashboard />
+	}
 
 	return (
 		<div>
@@ -51,7 +59,10 @@ const Landing: React.FC = () => {
 						aline.
 					</p>
 					<div className={`flex justify-center items-center gap-8 font-main mt-10`}>
-						<button className="bg-mid text-white px-4 py-2 rounded-md font-semibold">
+						<button
+							onClick={() => (window.location.href = '/login')}
+							className="bg-mid text-white px-4 py-2 rounded-md font-semibold"
+						>
 							Get Started
 						</button>
 
