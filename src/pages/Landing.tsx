@@ -6,8 +6,10 @@ import bg from '@/assets/bg.png'
 import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
+import { useToggle } from '@/store/toggle'
 
 const Landing: React.FC = () => {
+	const { theme } = useToggle()
 	const navigate = useNavigate()
 	const [hovered, setHovered] = useState(false)
 	const isMobile = useMedia('(max-width: 640px)')
@@ -19,6 +21,7 @@ const Landing: React.FC = () => {
 			<div
 				ref={navReference}
 				id="home"
+				className={`${theme === 'light' ? 'bg-light ' : 'bg-dark'} duration-150`}
 				style={{
 					backgroundImage: `url(${bg})`,
 					backgroundSize: 'cover',
@@ -37,7 +40,7 @@ const Landing: React.FC = () => {
 					<h1
 						className={`text-center ${
 							isMobile ? 'text-5xl' : 'text-[58px]'
-						} font-bold font-head text-docs`}
+						} font-bold font-head ${theme === 'light' ? 'text-docs' : 'text-white'}`}
 					>
 						Quality Questions, here we go!
 					</h1>
@@ -46,7 +49,7 @@ const Landing: React.FC = () => {
 							isMobile
 								? 'text-md text-center mt-4'
 								: 'text-xl mt-4 w-3/4 text-center leading-[50px]'
-						}`}
+						} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
 					>
 						Experience a smarter way of generating questions, supercharged with AI.
 						Take your questions to the next level with Questionooze, Bloom's Taxonomy
@@ -63,7 +66,9 @@ const Landing: React.FC = () => {
 						<button
 							onMouseEnter={() => setHovered(true)}
 							onMouseLeave={() => setHovered(false)}
-							className="flex gap-2 items-center"
+							className={`${
+								theme === 'light' ? 'text-docs' : 'text-white'
+							} duration-150 flex gap-2 items-center`}
 						>
 							Demo
 							<motion.div

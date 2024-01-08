@@ -8,7 +8,11 @@ import Dashboard from '@/components/dashboard/Dashboard'
 const Protected = () => {
 	const { authenticated } = useContext(AuthContext)
 
-	if (!authenticated) return <Navigate to="/login" replace />
+	if (!authenticated) {
+		setTimeout(() => {
+			return <Navigate to="/login" replace />
+		}, 1200)
+	}
 
 	return <Outlet />
 }
@@ -19,8 +23,8 @@ const App = () => {
 			<Router>
 				<Routes>
 					<Route path="/" element={<Landing />} />
-					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
+					<Route path="/login" element={<Login />} />
 					<Route element={<Protected />}>
 						<Route path="/dashboard" element={<Dashboard />} />
 					</Route>

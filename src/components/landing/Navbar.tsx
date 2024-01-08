@@ -9,8 +9,11 @@ import { Button } from '@chakra-ui/react'
 import { IoIosMenu } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavStore } from '@/store/nav'
+import { useToggle } from '@/store/toggle'
+import Thumb from './Thumb'
 
 const Navbar: React.FC = () => {
+	const { theme } = useToggle()
 	const { setNavReference } = useNavStore()
 	const navigate = useNavigate()
 	const [show, setShow] = useState(false)
@@ -92,12 +95,17 @@ const Navbar: React.FC = () => {
 										offset={-50}
 										duration={500}
 									>
-										<span className="font-semibold text-[15px] cursor-pointer hover:text-mid duration-150 hover">
+										<span
+											className={`font-semibold text-[15px] cursor-pointer ${
+												theme === 'light' ? 'text-docs' : 'text-white'
+											} hover:text-mid duration-150 hover`}
+										>
 											{item?.label}
 										</span>
 									</Link>
 								)
 							})}
+							<Thumb />
 							<Button
 								onClick={() => navigate('/login')}
 								className="font-bold text-white bg-mid px-4 py-2 rounded-md text-[15px]"

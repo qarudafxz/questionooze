@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import { check } from '@/utils/check'
 import { toast, Toaster } from 'sonner'
+import { useUserStore } from '@/store/user'
 
 const Login: React.FC = () => {
+	const { setUser } = useUserStore()
 	const navigate = useNavigate()
 	const isMobile = useMedia('(max-width: 640px)')
 	const [payload, setPayload] = useState({
@@ -87,6 +89,7 @@ const Login: React.FC = () => {
 									} else {
 										toast.success(check(res, 'logIn').message)
 
+										setUser(res?.user?.user_metadata)
 										setTimeout(() => {
 											navigate('/dashboard')
 										}, 1900)
