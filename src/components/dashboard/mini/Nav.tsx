@@ -5,6 +5,7 @@ import { useMedia } from '@/hooks/useMedia'
 import { Tooltip } from '@mui/material'
 import logo from '@/assets/logo.png'
 import { IoIosArrowForward } from 'react-icons/io'
+import { BiQuestionMark } from 'react-icons/bi'
 
 const Nav: React.FC = () => {
 	const { theme } = useToggle()
@@ -29,7 +30,7 @@ const Nav: React.FC = () => {
 
 	const isMobile = useMedia('(max-width: 640px)')
 	return (
-		<>
+		<div>
 			<motion.div
 				initial={{ x: isOpen ? 0 : isMobile ? -240 : -140 }}
 				animate={{ x: isOpen ? (isMobile ? -120 : 0) : isMobile ? -240 : -140 }}
@@ -38,8 +39,8 @@ const Nav: React.FC = () => {
 					isMobile ? 'ml-2' : 'px-6'
 				} py-10 h-screen shadow-2xl w-64 absolute z-10 ${
 					theme === 'light'
-						? 'bg-light border-zinc-400 duration-100'
-						: 'bg-dark duration-100'
+						? 'bg-[#dfdfdf] border-zinc-400 duration-100'
+						: 'bg-[#0b0f19] duration-100'
 				}`}
 			>
 				<div
@@ -76,10 +77,20 @@ const Nav: React.FC = () => {
 								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
 							} h-6`}
 						/>
+						<div
+							className={`${
+								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
+							} h-[1.5px] bg-zinc-300 mt-10`}
+						></div>
+						<div
+							className={`${
+								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
+							} h-6 mt-12`}
+						></div>
 					</div>
 				</div>
 			</motion.div>
-		</>
+		</div>
 	)
 }
 

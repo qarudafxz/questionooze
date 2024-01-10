@@ -32,3 +32,12 @@ export interface Database {
 		}
 	}
 }
+
+export interface Questionnaire {
+	id?: string
+	title: string
+	description?: string
+	context?: string
+	questions?: string
+	type_of_question?: string
+}

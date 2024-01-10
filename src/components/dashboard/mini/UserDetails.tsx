@@ -41,9 +41,23 @@ const UserDetails: React.FC = () => {
 					</div>
 				</div>
 			) : (
-				<div className="flex justify-between items-center py-4 px-20">
-					<div className=""></div>
-					<div className="flex gap-4 items-center">
+				<div
+					className={`flex justify-between items-center py-4 px-20  border-b ${
+						theme === 'light' ? 'border-zinc-300' : 'border-[#1e2844]'
+					}`}
+				>
+					<h1
+						className={`${
+							theme === 'light' ? 'text-primary' : 'text-white'
+						} font-bold pl-24 font-head text-3xl`}
+					>
+						Questions
+					</h1>
+					<div
+						className={`flex gap-4 items-center ${
+							theme === 'light' ? 'bg-zinc-200' : 'bg-[#090c14]'
+						} duration-150 py-2 px-5 rounded-full`}
+					>
 						<h1
 							className={`font-head font-medium ${
 								theme === 'light' ? 'text-docs' : 'text-white'
@@ -56,16 +70,16 @@ const UserDetails: React.FC = () => {
 							onClick={() =>
 								logOut(token).then(res => {
 									if (res) {
-										setTimeout(() => {
-											navigate('/login')
-										}, 1500)
+										navigate('/login')
 									}
 								})
 							}
 						>
 							<IoMdLogOut
 								size={30}
-								className={`${theme === 'light' ? 'text-docs' : 'text-white'}`}
+								className={`${
+									theme === 'light' ? 'text-white bg-mid' : 'text-dark bg-mid'
+								} rounded-full p-2`}
 							/>
 						</button>
 					</div>

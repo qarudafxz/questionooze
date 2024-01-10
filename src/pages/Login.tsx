@@ -9,6 +9,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { check } from '@/utils/check'
 import { toast, Toaster } from 'sonner'
 import { useUserStore } from '@/store/user'
+import bg from '@/assets/bg.jpg'
 
 const Login: React.FC = () => {
 	const { setUser } = useUserStore()
@@ -89,7 +90,11 @@ const Login: React.FC = () => {
 									} else {
 										toast.success(check(res, 'logIn').message)
 
-										setUser(res?.user?.user_metadata)
+										setUser({
+											first_name: res?.user?.user_metadata?.first_name,
+											last_name: res?.user?.user_metadata?.last_name,
+											user_id: res.user?.id
+										})
 										setTimeout(() => {
 											navigate('/dashboard')
 										}, 1900)
@@ -114,7 +119,7 @@ const Login: React.FC = () => {
 				<div
 					className=""
 					style={{
-						backgroundImage: `url(https://app.intellecs.ai/static/media/login.1ffae0de798488438d8b.jpg)`,
+						backgroundImage: `url(${bg})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
 						backgroundRepeat: 'no-repeat',
