@@ -5,6 +5,7 @@ import { FaClipboardQuestion } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 
 const CreateButton: React.FC = () => {
+	const { setIsCreate } = useToggle()
 	const [hovered, setHovered] = useState(false)
 
 	const { theme } = useToggle()
@@ -35,6 +36,7 @@ const CreateButton: React.FC = () => {
 				Get started by uploading a new document.
 			</p>
 			<button
+				onClick={() => setIsCreate(true)}
 				onMouseEnter={() => setHovered(true)}
 				onMouseLeave={() => setHovered(false)}
 				className="bg-mid px-4 py-2 rounded-md flex gap-4 items-center text-white mt-4"

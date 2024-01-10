@@ -40,4 +40,5 @@ export interface Questionnaire {
 	context?: string
 	questions?: string
 	type_of_question?: string
+	file_id?: string
 }

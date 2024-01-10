@@ -14,23 +14,7 @@ const QuestionsCards: React.FC<Props> = ({ questions, loading }) => {
 					<div
 						key={index}
 						className="w-full h-40 bg-white rounded-md shadow-md flex items-center justify-center"
-					>
-						{loading ? (
-							<div className="w-full h-full flex items-center justify-center">
-								<h1>Loading</h1>
-							</div>
-						) : (
-							<>
-								<div className="w-full h-full flex items-center justify-center">
-									<h1 className="text-2xl font-bold">{question.title}</h1>
-								</div>
-								<div className="w-full h-full flex items-center justify-center">
-									<p className="text-lg">{question.description}</p>
-								</div>
-							</>
-						)}
-						)
-					</div>
+					></div>
 				))}
 		</div>
 	)

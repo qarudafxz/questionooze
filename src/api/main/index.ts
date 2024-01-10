@@ -2,6 +2,10 @@ import supabase from '@/libs/supabase'
 import { Questionnaire } from '@/types/global'
 
 export const getQuestionnaires = async (id: string) => {
+	if (!id) {
+		throw new Error('No user id provided')
+	}
+
 	try {
 		const { data, error } = await supabase
 			.from('questionnaires')
@@ -16,21 +20,48 @@ export const getQuestionnaires = async (id: string) => {
 	}
 }
 
-export const createQuestionnaire = async (id: string, body: Questionnaire) => {
+const createQuestionnaire = async (
+	userId: string,
+	questionnaireData: Questionnaire,
+	file: File
+) => {
+	let loading = false
 	try {
-		const { data, error } = await supabase
+		loading = true
+
+		// Upload file first, then grab its file id
+		const { data: fileData, error: fileError } = await supabase.storage
+			.from('files')
+			.upload(`${userId}/${file.name}`, file, {
+				cacheControl: '3600',
+				upsert: false
+			})
+
+		if (fileError) {
+			throw new Error('Error uploading file')
+		}
+
+		const { data, error: insertError } = await supabase
 			.from('questionnaires')
 			.insert({
-				title: body.title,
-				description: body.description,
-				user_id: id
+				title: questionnaireData.title,
+				description: questionnaireData.description,
+				user_id: userId,
+				file_id: fileData?.path || null
 			})
 			.select()
 
-		if (error) throw Error('Error getting questionnaires')
+		if (insertError) {
+			throw new Error('Error inserting questionnaire')
+		}
 
-		return data
-	} catch (err) {
-		console.error(err)
+		loading = false
+
+		return { data, loading }
+	} catch (error) {
+		console.error(error)
+		throw error
 	}
 }
+
+export default createQuestionnaire

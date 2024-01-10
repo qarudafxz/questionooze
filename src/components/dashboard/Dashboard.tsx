@@ -8,6 +8,7 @@ import { getQuestionnaires } from '@/api/main/index'
 import { useToggle } from '@/store/toggle'
 import { useUserStore } from '@/store/user'
 import CreateButton from './mini/CreateButton'
+import CreateModal from './mini/CreateModal'
 
 const Dashboard: React.FC = () => {
 	const { user } = useUserStore()
@@ -45,6 +46,7 @@ const Dashboard: React.FC = () => {
 						<CreateButton />
 						<QuestionsCards questions={questions} loading={loading} />
 					</div>
+					<CreateModal />
 				</div>
 			</div>
 		</div>
