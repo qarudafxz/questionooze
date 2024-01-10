@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useToggle } from '@/store/toggle'
@@ -5,8 +6,6 @@ import { useMedia } from '@/hooks/useMedia'
 import { Tooltip } from '@mui/material'
 import logo from '@/assets/logo.png'
 import { IoIosArrowForward } from 'react-icons/io'
-import { BiQuestionMark } from 'react-icons/bi'
-
 const Nav: React.FC = () => {
 	const { theme } = useToggle()
 	const [isOpen, setIsOpen] = useState(false)
