@@ -6,7 +6,18 @@ import { useMedia } from '@/hooks/useMedia'
 import { Tooltip } from '@mui/material'
 import logo from '@/assets/logo.png'
 import { IoIosArrowForward } from 'react-icons/io'
-const Nav: React.FC = () => {
+import { ImFilesEmpty } from 'react-icons/im'
+import { IoMdArrowDropdown } from 'react-icons/io'
+import { Questionnaire } from '@/types/global'
+import { FiFile } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+
+interface Props {
+	questions: Questionnaire[]
+}
+
+const Nav: React.FC<Props> = ({ questions }) => {
+	const [collapse, setCollapse] = useState(true)
 	const { theme } = useToggle()
 	const [isOpen, setIsOpen] = useState(false)
 	const handleToggle = (e: KeyboardEvent) => {
@@ -35,17 +46,17 @@ const Nav: React.FC = () => {
 				animate={{ x: isOpen ? (isMobile ? -120 : 0) : isMobile ? -240 : -140 }}
 				transition={{ duration: 0.2 }}
 				className={`${
-					isMobile ? 'ml-2' : 'px-6'
-				} py-10 h-screen shadow-2xl w-64 absolute z-10 ${
+					isMobile ? 'ml-2 w-64' : 'px-6 w-[260px]'
+				} font-main py-10 h-screen shadow-2xl absolute z-10 ${
 					theme === 'light'
 						? 'bg-[#dfdfdf] border-zinc-400 duration-100'
 						: 'bg-[#0b0f19] duration-100'
 				}`}
 			>
 				<div
-					className={`flex flex-col gap-2 justify-items-center items-center ${
-						theme === 'light' ? 'bg-light' : 'bg-dark'
-					}}`}
+					className={`${
+						isMobile ? 'flex flex-col gap-2 items-center' : ' items-left'
+					} ${theme === 'light' ? 'bg-light' : 'bg-dark'}} p-6`}
 				>
 					<Tooltip
 						title="Toggle Nav"
@@ -58,7 +69,7 @@ const Nav: React.FC = () => {
 							onClick={() => setIsOpen(!isOpen)}
 							className={`border-4 relative left-[125px] ${
 								theme === 'light' ? 'bg-dark' : 'bg-light'
-							}`}
+							} ${!isMobile && 'relative left-[185px]'}`}
 						>
 							<IoIosArrowForward
 								size={20}
@@ -73,19 +84,74 @@ const Nav: React.FC = () => {
 							src={logo}
 							alt="WTF Logo"
 							className={`${
-								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
+								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-10 h-10'
 							} h-6`}
 						/>
 						<div
 							className={`${
-								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
+								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-full'
 							} h-[1.5px] bg-zinc-300 mt-10`}
-						></div>
+						/>
 						<div
 							className={`${
 								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
 							} h-6 mt-12`}
-						></div>
+						>
+							<div className={`flex gap-4 items-center`}>
+								<ImFilesEmpty
+									onClick={() => setCollapse(!collapse)}
+									size={isMobile ? 20 : 45}
+									className={`${
+										theme === 'light' ? 'text-mid' : 'text-white'
+									} hover:cursor-pointer`}
+								/>
+								<h1
+									onClick={() => setCollapse(!collapse)}
+									className={`font-semibold ${isMobile && 'hidden'} ${
+										theme === 'light' ? 'text-primary' : 'text-white'
+									} ${
+										isOpen ? 'block' : 'hidden'
+									} flex justify-between items-center gap-6 hover:cursor-pointer`}
+								>
+									Questionnaires
+									<IoMdArrowDropdown
+										size={30}
+										className={`${collapse ? 'rotate-180' : 'rotate-0'} duration-150`}
+									/>
+								</h1>
+							</div>
+							{collapse && (
+								<div
+									className={`${
+										isMobile ? '' : isOpen ? 'ml-10' : 'ml-4'
+									} flex flex-col gap-5 mt-4 w-full`}
+								>
+									{questions?.map(question => {
+										return (
+											<Link
+												key={question?.id}
+												to={`/dashboard/questionnaire/${question?.id}`}
+												className="grid grid-cols-5 gap-4 w-full items-center hover:cursor-pointer"
+											>
+												<FiFile
+													size={20}
+													className={`${!isOpen && 'block'} ${
+														theme === 'light' ? 'text-mid' : 'text-white'
+													} col-span-3`}
+												/>
+												<h1
+													className={`${theme === 'light' ? 'text-mid' : 'text-white'} ${
+														!isOpen && 'hidden'
+													} col-span-2`}
+												>
+													{question?.title}
+												</h1>
+											</Link>
+										)
+									})}
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			</motion.div>

@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
 		>
 			<div className="">
 				{/* Navbar */}
-				<Nav />
+				<Nav questions={questions} />
 				{/* Content */}
 				<div className="flex flex-col gap-4">
 					<UserDetails />
@@ -69,7 +69,6 @@ const Dashboard: React.FC = () => {
 						} mt-4`}
 					>
 						<CreateButton />
-
 						{questions.length > 0 &&
 							questions.map((question, index) => (
 								<div
