@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
 		setLoading(true)
 		getQuestionnaires(user?.user_id)
 			.then(res => {
-				setQuestions(res?.data || ([] as Questionnaire[]))
+				setQuestions(res?.fileData || ([] as Questionnaire[]))
 				setTimeout(() => {
 					setLoading(false)
 				}, 1200)
@@ -84,12 +84,13 @@ const Dashboard: React.FC = () => {
 											description={question?.description}
 											questions={question?.questions}
 											file_id={question?.file_id}
+											file_url={question?.file_url}
 										/>
 									)}
 								</div>
 							))}
 					</div>
-					<CreateModal />
+					<CreateModal getQuestions={getQuestions} />
 				</div>
 			</div>
 		</div>

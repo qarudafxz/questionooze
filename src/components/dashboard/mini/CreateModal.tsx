@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useToggle } from '@/store/toggle'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Input, Textarea } from '@chakra-ui/react'
@@ -16,8 +16,12 @@ interface FormState {
 	description: string
 }
 
-const CreateModal: React.FC = () => {
-	const navigate = useNavigate()
+interface Props {
+	getQuestions: () => void
+}
+
+const CreateModal: React.FC<Props> = ({ getQuestions }) => {
+	// const navigate = useNavigate()
 	const { user } = useUserStore()
 	const isMobile = useMedia('(max-width: 640px)')
 	const { isCreate, setIsCreate } = useToggle()
@@ -109,11 +113,13 @@ const CreateModal: React.FC = () => {
 			if (res.status === 200) {
 				setLoading(false)
 				toast.success('Questionnaire created successfully')
+
 				setTimeout(() => {
-					navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
-						replace: true,
-						state: { id: res.data[0].id }
-					})
+					getQuestions()
+					// navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
+					// 	replace: true,
+					// 	state: { id: res.data[0].id }
+					// })
 				}, 1500)
 			}
 		} catch (err) {

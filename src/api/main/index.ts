@@ -16,7 +16,27 @@ export const getQuestionnaires = async (id: string) => {
 			throw new Error(error.message)
 		}
 
-		return { data }
+		//get the file based on the file path from the storage of supabase
+		const fileData = await Promise.all(
+			data.map(async questionnaire => {
+				//eslint-disable-next-line
+				//@ts-ignore
+				const { data: fileData, error: fileError } = await supabase.storage
+					.from('files')
+					.getPublicUrl(questionnaire.file_path)
+
+				if (fileError) {
+					console.log(fileError)
+					throw new Error('Error downloading file')
+				}
+
+				const fileUrl = fileData?.publicUrl?.replace('/files', '')
+
+				return { ...questionnaire, file_url: fileUrl }
+			})
+		)
+
+		return { fileData }
 	} catch (err) {
 		console.error(err)
 	}
@@ -29,11 +49,16 @@ export const createQuestionnaire = async (
 	fileName: string
 ) => {
 	try {
+		//get the file type from the file name
+		const fileType = fileName.split('.').pop()
+
 		const { data: fileData, error: fileError } = await supabase.storage
 			.from('files')
 			.upload(`${userId}/${fileName}`, file, {
 				cacheControl: '3600',
-				upsert: false
+				upsert: false,
+				contentType:
+					fileType === 'pdf' ? 'application/pdf' : 'application/vnd.ms-powerpoint'
 			})
 
 		if (fileError) {

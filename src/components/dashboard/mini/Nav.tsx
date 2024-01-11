@@ -6,7 +6,7 @@ import { useMedia } from '@/hooks/useMedia'
 import { Tooltip } from '@mui/material'
 import logo from '@/assets/logo.png'
 import { IoIosArrowForward } from 'react-icons/io'
-import { ImFilesEmpty } from 'react-icons/im'
+import { FaFolderOpen } from 'react-icons/fa'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import { Questionnaire } from '@/types/global'
 import { FiFile } from 'react-icons/fi'
@@ -46,7 +46,7 @@ const Nav: React.FC<Props> = ({ questions }) => {
 				animate={{ x: isOpen ? (isMobile ? -120 : 0) : isMobile ? -240 : -140 }}
 				transition={{ duration: 0.2 }}
 				className={`${
-					isMobile ? 'ml-2 w-64' : 'px-6 w-[260px]'
+					isMobile ? 'ml-2 w-64' : 'px-6 w-[300px]'
 				} font-main py-10 h-screen shadow-2xl absolute z-10 ${
 					theme === 'light'
 						? 'bg-[#dfdfdf] border-zinc-400 duration-100'
@@ -67,9 +67,9 @@ const Nav: React.FC<Props> = ({ questions }) => {
 					>
 						<button
 							onClick={() => setIsOpen(!isOpen)}
-							className={`border-4 relative left-[125px] ${
+							className={`border-4 relative  ${
 								theme === 'light' ? 'bg-dark' : 'bg-light'
-							} ${!isMobile && 'relative left-[185px]'}`}
+							} ${isMobile ? 'left-[125px]' : 'left-[220px]'}`}
 						>
 							<IoIosArrowForward
 								size={20}
@@ -84,7 +84,7 @@ const Nav: React.FC<Props> = ({ questions }) => {
 							src={logo}
 							alt="WTF Logo"
 							className={`${
-								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-10 h-10'
+								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-10 h-auto'
 							} h-6`}
 						/>
 						<div
@@ -97,28 +97,32 @@ const Nav: React.FC<Props> = ({ questions }) => {
 								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-6'
 							} h-6 mt-12`}
 						>
-							<div className={`flex gap-4 items-center`}>
-								<ImFilesEmpty
+							<div className={`grid grid-cols-6 gap-x-5 items-center`}>
+								<FaFolderOpen
 									onClick={() => setCollapse(!collapse)}
-									size={isMobile ? 20 : 45}
-									className={`${
+									size={25}
+									className={`col-span-2 ${
 										theme === 'light' ? 'text-mid' : 'text-white'
 									} hover:cursor-pointer`}
 								/>
 								<h1
 									onClick={() => setCollapse(!collapse)}
-									className={`font-semibold ${isMobile && 'hidden'} ${
-										theme === 'light' ? 'text-primary' : 'text-white'
-									} ${
+									className={`col-span-2 flex gap-4 font-semibold ${
+										isMobile && 'hidden'
+									} ${theme === 'light' ? 'text-primary' : 'text-white'} ${
 										isOpen ? 'block' : 'hidden'
-									} flex justify-between items-center gap-6 hover:cursor-pointer`}
+									} text-[15px] hover:cursor-pointer`}
 								>
 									Questionnaires
-									<IoMdArrowDropdown
-										size={30}
-										className={`${collapse ? 'rotate-180' : 'rotate-0'} duration-150`}
-									/>
 								</h1>
+								<IoMdArrowDropdown
+									size={30}
+									className={`col-span-2 ${!isOpen && 'hidden'}  ${
+										theme === 'light' ? 'text-primary' : 'text-white'
+									} ${
+										collapse ? 'rotate-180' : 'rotate-0'
+									} relative left-[115px] duration-150`}
+								/>
 							</div>
 							{collapse && (
 								<div
