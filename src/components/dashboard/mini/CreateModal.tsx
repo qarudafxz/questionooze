@@ -9,6 +9,7 @@ import { RiUploadCloud2Fill } from 'react-icons/ri'
 import { toast, Toaster } from 'sonner'
 import { createQuestionnaire } from '@/api/main/index'
 import { useUserStore } from '@/store/user'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 interface FormState {
 	title: string
@@ -30,6 +31,7 @@ const CreateModal: React.FC = () => {
 	const createModal = useRef<HTMLDivElement>(null)
 	const fileInput = useRef<HTMLInputElement>(null)
 	const [dataOfFile, setDataOfFile] = useState<string | null>(null)
+	const [loading, setLoading] = useState(false)
 
 	const handleCloseModal = (e: React.MouseEvent) => {
 		if (e.target === createModal.current) {
@@ -93,6 +95,7 @@ const CreateModal: React.FC = () => {
 	const handleCreateQuestionnaire = async (e: React.MouseEvent) => {
 		e.preventDefault()
 		try {
+			setLoading(true)
 			const res = await createQuestionnaire(
 				user.user_id,
 				{
@@ -104,6 +107,7 @@ const CreateModal: React.FC = () => {
 			)
 
 			if (res.status === 200) {
+				setLoading(false)
 				toast.success('Questionnaire created successfully')
 				setTimeout(() => {
 					navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
@@ -113,6 +117,7 @@ const CreateModal: React.FC = () => {
 				}, 1500)
 			}
 		} catch (err) {
+			setLoading(false)
 			console.error(err)
 			toast.error('Failed to create questionnaire')
 		}
@@ -197,9 +202,25 @@ const CreateModal: React.FC = () => {
 						</form>
 						<button
 							onClick={e => handleCreateQuestionnaire(e)}
-							className="bg-mid text-white py-2 rounded-md text-center font-bold w-full"
+							className={`bg-mid text-white py-2 rounded-md text-center font-bold w-full ${
+								loading && 'flex gap-4 place-items-center justify-center opacity-50'
+							}`}
 						>
-							Create new questionnaire
+							{loading ? (
+								<>
+									<motion.div
+										animate={{
+											rotate: 360
+										}}
+										transition={{ repeat: Infinity, duration: 0.4, ease: 'linear' }}
+									>
+										<AiOutlineLoading3Quarters size={15} />
+									</motion.div>
+									Creating questionnaire
+								</>
+							) : (
+								'Create new questionnare'
+							)}
 						</button>
 					</motion.div>
 				</div>

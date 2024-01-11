@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import Nav from './mini/Nav'
 import UserDetails from './mini/UserDetails'
@@ -12,7 +13,7 @@ import CreateModal from './mini/CreateModal'
 import Skeleton from '@mui/material/Skeleton'
 
 const Dashboard: React.FC = () => {
-	const { user } = useUserStore()
+	const { user, setUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
 	const [questions, setQuestions] = useState<Questionnaire[]>([])
 
@@ -35,13 +36,26 @@ const Dashboard: React.FC = () => {
 	}
 
 	useEffect(() => {
+		if (!user.first_name && !user.last_name && !user.user_id) {
+			const userDetails = JSON.parse(
+				localStorage.getItem(import.meta.env.VITE_SESSION_KEY) || '{}'
+			)
+
+			setUser({
+				first_name: userDetails?.user?.user_metadata?.first_name,
+				last_name: userDetails?.user?.user_metadata?.last_name,
+				user_id: userDetails?.user?.id
+			})
+		}
 		setLoading(true)
 		getQuestions()
-	}, [])
+	}, [user])
 
 	return (
 		<div
-			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} h-screen w-full`}
+			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full ${
+				!isMobile && 'h-screen'
+			}`}
 		>
 			<div className="">
 				{/* Navbar */}
