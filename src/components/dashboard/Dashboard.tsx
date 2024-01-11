@@ -9,6 +9,7 @@ import { useToggle } from '@/store/toggle'
 import { useUserStore } from '@/store/user'
 import CreateButton from './mini/CreateButton'
 import CreateModal from './mini/CreateModal'
+import Skeleton from '@mui/material/Skeleton'
 
 const Dashboard: React.FC = () => {
 	const { user } = useUserStore()
@@ -18,20 +19,30 @@ const Dashboard: React.FC = () => {
 	const isMobile = useMedia('(max-width: 640px)')
 	const { theme } = useToggle()
 
-	useEffect(() => {
+	const getQuestions = () => {
 		setLoading(true)
-		getQuestionnaires(user?.user_id).then(res => {
-			if (res) {
-				setQuestions(res)
+		getQuestionnaires(user?.user_id)
+			.then(res => {
+				setQuestions(res?.data || ([] as Questionnaire[]))
 				setTimeout(() => {
 					setLoading(false)
-				}, 1500)
-			}
-		})
-	}, [user?.user_id])
+				}, 1200)
+			})
+			.catch(err => {
+				console.error(err)
+				setLoading(false)
+			})
+	}
+
+	useEffect(() => {
+		setLoading(true)
+		getQuestions()
+	}, [])
 
 	return (
-		<div className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} h-screen`}>
+		<div
+			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} h-screen w-full`}
+		>
 			<div className="">
 				{/* Navbar */}
 				<Nav />
@@ -40,13 +51,32 @@ const Dashboard: React.FC = () => {
 					<UserDetails />
 					<div
 						className={`${
-							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-4'
+							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5'
 						} mt-4`}
 					>
 						<CreateButton />
-						<QuestionsCards questions={questions} loading={loading} />
+
+						{questions.length > 0 &&
+							questions.map((question, index) => (
+								<div
+									key={index}
+									className="w-full h-40 rounded-md shadow-md flex items-center justify-center"
+								>
+									{loading ? (
+										<Skeleton variant="rectangular" width={'100%'} height={'100%'} />
+									) : (
+										<QuestionsCards
+											id={question?.id}
+											title={question?.title}
+											description={question?.description}
+											questions={question?.questions}
+											file_id={question?.file_id}
+										/>
+									)}
+								</div>
+							))}
 					</div>
-					<CreateModal />
+					<CreateModal getQuestions={getQuestions} />
 				</div>
 			</div>
 		</div>

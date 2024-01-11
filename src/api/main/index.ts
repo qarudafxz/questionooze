@@ -12,32 +12,32 @@ export const getQuestionnaires = async (id: string) => {
 			.select()
 			.eq('user_id', id)
 
-		if (error) throw Error('Error getting questionnaires')
+		if (error) {
+			throw new Error(error.message)
+		}
 
-		return data
+		return { data }
 	} catch (err) {
 		console.error(err)
 	}
 }
 
-const createQuestionnaire = async (
+export const createQuestionnaire = async (
 	userId: string,
 	questionnaireData: Questionnaire,
-	file: File
+	file: string,
+	fileName: string
 ) => {
-	let loading = false
 	try {
-		loading = true
-
-		// Upload file first, then grab its file id
 		const { data: fileData, error: fileError } = await supabase.storage
 			.from('files')
-			.upload(`${userId}/${file.name}`, file, {
+			.upload(`${userId}/${fileName}`, file, {
 				cacheControl: '3600',
 				upsert: false
 			})
 
 		if (fileError) {
+			console.log(fileError)
 			throw new Error('Error uploading file')
 		}
 
@@ -47,21 +47,20 @@ const createQuestionnaire = async (
 				title: questionnaireData.title,
 				description: questionnaireData.description,
 				user_id: userId,
-				file_id: fileData?.path || null
+				//eslint-disable-next-line
+				//@ts-ignore
+				file_path: fileData?.fullPath || ''
 			})
 			.select()
 
 		if (insertError) {
+			console.log(insertError)
 			throw new Error('Error inserting questionnaire')
 		}
 
-		loading = false
-
-		return { data, loading }
+		return { data, status: 200 }
 	} catch (error) {
 		console.error(error)
 		throw error
 	}
 }
-
-export default createQuestionnaire
