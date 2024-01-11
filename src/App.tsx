@@ -4,6 +4,7 @@ import { AuthContextProvider, AuthContext } from '@/context/AuthContextProvider'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Landing, Login, Signup } from '@/pages'
 import Dashboard from '@/components/dashboard/Dashboard'
+import Questionnaire from '@/components/dashboard/Questionnaire'
 
 const Protected = () => {
 	const { authenticated } = useContext(AuthContext)
@@ -27,6 +28,7 @@ const App = () => {
 					<Route path="/login" element={<Login />} />
 					<Route element={<Protected />}>
 						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/dashboard/questionnaire/:id" element={<Questionnaire />} />
 					</Route>
 				</Routes>
 			</Router>

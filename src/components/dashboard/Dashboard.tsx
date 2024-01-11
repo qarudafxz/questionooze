@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
 								</div>
 							))}
 					</div>
-					<CreateModal getQuestions={getQuestions} />
+					<CreateModal />
 				</div>
 			</div>
 		</div>

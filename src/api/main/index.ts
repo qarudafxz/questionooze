@@ -37,7 +37,6 @@ export const createQuestionnaire = async (
 			})
 
 		if (fileError) {
-			console.log(fileError)
 			throw new Error('Error uploading file')
 		}
 
