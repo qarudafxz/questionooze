@@ -7,7 +7,7 @@ import { useUserStore } from '@/store/user'
 import { IoMdLogOut } from 'react-icons/io'
 import { logOut } from '@/api/auth'
 
-const UserDetails: React.FC = () => {
+const UserDetails: React.FC<{ label: string }> = ({ label }) => {
 	const navigate = useNavigate()
 	const storage = localStorage.getItem(import.meta.env.VITE_SESSION_KEY)
 	const token = JSON.parse(storage as string)?.access_token
@@ -51,7 +51,7 @@ const UserDetails: React.FC = () => {
 							theme === 'light' ? 'text-primary' : 'text-white'
 						} font-bold pl-24 font-head text-3xl`}
 					>
-						Questions
+						{label}
 					</h1>
 					<div
 						className={`flex gap-4 items-center ${

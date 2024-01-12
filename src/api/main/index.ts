@@ -16,7 +16,6 @@ export const getQuestionnaires = async (id: string) => {
 			throw new Error(error.message)
 		}
 
-		//get the file based on the file path from the storage of supabase
 		const fileData = await Promise.all(
 			data.map(async questionnaire => {
 				//eslint-disable-next-line
@@ -49,8 +48,7 @@ export const createQuestionnaire = async (
 	fileName: string
 ) => {
 	try {
-		//get the file type from the file name
-		const fileType = fileName.split('.').pop()
+		const type = fileName.split('.').pop()
 
 		const { data: fileData, error: fileError } = await supabase.storage
 			.from('files')
@@ -58,7 +56,7 @@ export const createQuestionnaire = async (
 				cacheControl: '3600',
 				upsert: false,
 				contentType:
-					fileType === 'pdf' ? 'application/pdf' : 'application/vnd.ms-powerpoint'
+					type === 'pdf' ? 'application/pdf' : 'application/vnd.ms-powerpoint'
 			})
 
 		if (fileError) {
@@ -86,5 +84,22 @@ export const createQuestionnaire = async (
 	} catch (error) {
 		console.error(error)
 		throw error
+	}
+}
+
+export const getSpecificQuestionnaire = async (id: string) => {
+	try {
+		const { data, error } = await supabase
+			.from('questionnaires')
+			.select()
+			.eq('id', id)
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return { data }
+	} catch (err) {
+		console.error(err)
 	}
 }

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useToggle } from '@/store/toggle'
 import { useMedia } from '@/hooks/useMedia'
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const Nav: React.FC<Props> = ({ questions }) => {
+	const navigate = useNavigate()
 	const [collapse, setCollapse] = useState(true)
 	const { theme } = useToggle()
 	const [isOpen, setIsOpen] = useState(false)
@@ -83,9 +85,12 @@ const Nav: React.FC<Props> = ({ questions }) => {
 						<img
 							src={logo}
 							alt="WTF Logo"
+							onClick={() => {
+								navigate('/dashboard')
+							}}
 							className={`${
 								isOpen && isMobile ? 'w-34 relative left-[55px]' : 'w-10 h-auto'
-							} h-6`}
+							} h-6 hover:cursor-pointer`}
 						/>
 						<div
 							className={`${
@@ -135,6 +140,7 @@ const Nav: React.FC<Props> = ({ questions }) => {
 											<Link
 												key={question?.id}
 												to={`/dashboard/questionnaire/${question?.id}`}
+												state={{ id: question?.id }}
 												className="grid grid-cols-5 gap-4 w-full items-center hover:cursor-pointer"
 											>
 												<FiFile

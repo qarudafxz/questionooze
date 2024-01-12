@@ -11,11 +11,12 @@ import { useUserStore } from '@/store/user'
 import CreateButton from './mini/CreateButton'
 import CreateModal from './mini/CreateModal'
 import Skeleton from '@mui/material/Skeleton'
+import { useQuestionnaireStore } from '@/store/questions'
 
 const Dashboard: React.FC = () => {
+	const { setQuestions, questions } = useQuestionnaireStore()
 	const { user, setUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
-	const [questions, setQuestions] = useState<Questionnaire[]>([])
 
 	const isMobile = useMedia('(max-width: 640px)')
 	const { theme } = useToggle()
@@ -62,7 +63,7 @@ const Dashboard: React.FC = () => {
 				<Nav questions={questions} />
 				{/* Content */}
 				<div className="flex flex-col gap-4">
-					<UserDetails />
+					<UserDetails label={'Questions'} />
 					<div
 						className={`${
 							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5'
