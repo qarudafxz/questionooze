@@ -11,12 +11,13 @@ interface Props {
 	file_id?: string
 	file_url?: string
 	created_at?: Date
+	file_path?: string
 }
 
 const QuestionsCards: React.FC<Props> = ({
 	title,
 	description,
-	file_url,
+	file_path,
 	created_at
 }) => {
 	const isMobile = useMedia('(max-width: 640px)')
@@ -27,7 +28,7 @@ const QuestionsCards: React.FC<Props> = ({
 			const canvas = canvasRef.current
 			const ctx = canvas.getContext('2d')
 			const img = new Image()
-			img.src = file_url as string
+			img.src = file_path as string
 
 			img.onload = function () {
 				if (ctx) {
@@ -35,7 +36,7 @@ const QuestionsCards: React.FC<Props> = ({
 				}
 			}
 		}
-	}, [file_url])
+	}, [file_path])
 	return (
 		<div className="w-full h-full rounded-md font-main bg-white flex flex-col justify-center items-center py-2">
 			<div className="w-full h-1/2">

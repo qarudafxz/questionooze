@@ -48,7 +48,7 @@ const Questionnaire: React.FC = () => {
 						</div>
 						{/* For pdf/ppt preview */}
 						<div className="col-span-5">
-							<PDFPPTViewer pdf_ppt={question?.file_url} />
+							<PDFPPTViewer pdf_ppt={question?.file_path} />
 						</div>
 						{/* For generated questions */}
 						<div className="col-span-3"></div>

@@ -4,6 +4,7 @@ interface Props {
 	pdf_ppt?: string
 }
 const PDFPPTViewer: React.FC<Props> = ({ pdf_ppt }) => {
+	console.log(pdf_ppt)
 	return (
 		<div className="">
 			<iframe

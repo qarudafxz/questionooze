@@ -41,6 +41,6 @@ export interface Questionnaire {
 	questions?: string
 	type_of_question?: string
 	file_id?: string
-	file_url?: string
+	file_path?: string
 	created_at?: Date
 }

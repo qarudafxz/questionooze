@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
 											description={question?.description}
 											questions={question?.questions}
 											file_id={question?.file_id}
-											file_url={question?.file_url}
+											file_url={question?.file_path}
 											created_at={question?.created_at}
 										/>
 									)}
