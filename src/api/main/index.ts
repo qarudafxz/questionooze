@@ -44,16 +44,15 @@ export const getQuestionnaires = async (id: string) => {
 export const createQuestionnaire = async (
 	userId: string,
 	questionnaireData: Questionnaire,
-	file: string,
+	file: File | null,
 	fileName: string
 ) => {
 	try {
 		const type = fileName.split('.').pop()
 
 		const { data: fileData, error: fileError } = await supabase.storage
-			.from('files')
-			.upload(`${userId}/${fileName}`, file, {
-				cacheControl: '3600',
+			.from(`${type === 'pdf' ? 'pdfs' : 'ppts'}`)
+			.upload(`${userId}/${fileName}`, file!, {
 				upsert: false,
 				contentType:
 					type === 'pdf' ? 'application/pdf' : 'application/vnd.ms-powerpoint'
@@ -63,6 +62,10 @@ export const createQuestionnaire = async (
 			throw new Error('Error uploading file')
 		}
 
+		const pdfUrl = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}${
+			type === 'pdf' ? 'pdfs/' : 'ppts/'
+		}${fileData?.path || ''}`
+
 		const { data, error: insertError } = await supabase
 			.from('questionnaires')
 			.insert({
@@ -71,7 +74,7 @@ export const createQuestionnaire = async (
 				user_id: userId,
 				//eslint-disable-next-line
 				//@ts-ignore
-				file_path: fileData?.fullPath || ''
+				file_path: pdfUrl
 			})
 			.select()
 
@@ -80,7 +83,7 @@ export const createQuestionnaire = async (
 			throw new Error('Error inserting questionnaire')
 		}
 
-		return { data, status: 200 }
+		return { data, pdfUrl, status: 200 }
 	} catch (error) {
 		console.error(error)
 		throw error

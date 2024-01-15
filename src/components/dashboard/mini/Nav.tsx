@@ -49,7 +49,7 @@ const Nav: React.FC<Props> = ({ questions }) => {
 				transition={{ duration: 0.2 }}
 				className={`${
 					isMobile ? 'ml-2 w-64' : 'px-6 w-[300px]'
-				} font-main py-10 h-screen shadow-2xl absolute z-10 ${
+				} font-main py-10 h-[900px] shadow-2xl absolute z-10 ${
 					theme === 'light'
 						? 'bg-[#dfdfdf] border-zinc-400 duration-100'
 						: 'bg-[#0b0f19] duration-100'

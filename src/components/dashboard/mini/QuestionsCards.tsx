@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { useMedia } from '@/hooks/useMedia'
 
 interface Props {
 	id?: string
@@ -9,9 +10,16 @@ interface Props {
 	type_of_question?: string
 	file_id?: string
 	file_url?: string
+	created_at?: Date
 }
 
-const QuestionsCards: React.FC<Props> = ({ title, description, file_url }) => {
+const QuestionsCards: React.FC<Props> = ({
+	title,
+	description,
+	file_url,
+	created_at
+}) => {
+	const isMobile = useMedia('(max-width: 640px)')
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
 	useEffect(() => {
@@ -20,7 +28,7 @@ const QuestionsCards: React.FC<Props> = ({ title, description, file_url }) => {
 			const ctx = canvas.getContext('2d')
 			const img = new Image()
 			img.src = file_url as string
-			console.log(img)
+
 			img.onload = function () {
 				if (ctx) {
 					ctx.drawImage(img, 0, 0)
@@ -29,10 +37,21 @@ const QuestionsCards: React.FC<Props> = ({ title, description, file_url }) => {
 		}
 	}, [file_url])
 	return (
-		<div className="w-full h-full rounded-md font-main bg-white flex flex-col justify-center items-center">
-			<canvas ref={canvasRef} className="w-full h-1/2"></canvas>
+		<div className="w-full h-full rounded-md font-main bg-white flex flex-col justify-center items-center py-2">
+			<div className="w-full h-1/2">
+				<canvas ref={canvasRef} className="w-full h-full" />
+			</div>
 			<h1 className="font-bold text-2xl">{title}</h1>
 			<p>{description}</p>
+			<p className={`mt-2 ${isMobile ? 'text-sm' : 'text-[11px]'}`}>
+				Uploaded on{' '}
+				{created_at &&
+					new Date(created_at).toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					})}
+			</p>
 		</div>
 	)
 }

@@ -1,9 +1,12 @@
+//eslint-disable-next-line
+//@ts-nocheck
 import React, { useState, useEffect } from 'react'
 import { useToggle } from '@/store/toggle'
 import { useMedia } from '@/hooks/useMedia'
 import HorizontalSteps from './mini/HorizontalSteps'
 import { motion } from 'framer-motion'
-import Slider from '@mui/material/Slider'
+import data from '@/data/blooms_taxonomy.json'
+import { Checkbox, Slider } from '@mui/material'
 
 const ConfigPanel: React.FC = () => {
 	const [active, setActive] = useState(0)
@@ -16,15 +19,30 @@ const ConfigPanel: React.FC = () => {
 		difficulty: ''
 	})
 
+	const typeOfQuestion = [
+		'Multiple choice',
+		'Fill in the blanks',
+		'True or False',
+		'Situational/Explanation'
+	]
+
 	useEffect(() => {
-		if (configuration?.numberOfQuestions > 0) setActive(1)
-		else if (
-			configuration?.category.length > 0 &&
-			configuration?.typeOfQuestion?.length > 0
-		)
+		const { numberOfQuestions, category, typeOfQuestion, difficulty } =
+			configuration || {}
+
+		if (numberOfQuestions > 0) {
+			setActive(1)
+		} else if (
+			category.length > 0 &&
+			typeOfQuestion.length > 0 &&
+			difficulty !== ''
+		) {
+			setActive(3)
+		} else if (category.length > 0 && typeOfQuestion.length > 0) {
 			setActive(2)
-		else if (configuration?.difficulty !== '') setActive(3)
-		else setActive(0)
+		} else {
+			setActive(0)
+		}
 	}, [configuration])
 
 	return (
@@ -85,10 +103,69 @@ const ConfigPanel: React.FC = () => {
 						Category
 					</h1>
 					{/* Blooms */}
-					<div className="grid grid-cols-4"></div>
+					<div className={`grid  ${isMobile ? 'grid-cols-2' : 'grid-cols-2'}`}>
+						{data?.map((item, index) => {
+							return (
+								<div key={index} className="flex items-center gap-2">
+									<Checkbox
+										onChange={e => {
+											if (e?.target?.checked) {
+												setConfiguration({
+													...configuration,
+													category: [
+														...((configuration?.category || []) as string[]), // Explicitly specify the type
+														item?.category || ''
+													]
+												})
+											} else {
+												setConfiguration({
+													...configuration,
+													category: configuration?.category?.filter(
+														(i: string) => i !== item?.category
+													)
+												})
+											}
+										}}
+										inputProps={{ 'aria-label': 'controlled' }}
+									/>
+									<h1 className="font-head text-[10px]">{item?.category}</h1>
+								</div>
+							)
+						})}
+					</div>
 					{/* Type of questionnaire ["Multiple choice", "Fill in the blanks", "True or False", "Situational"] */}
 					<div className="mt-4">
-						<h1>Type of Question</h1>
+						<h1 className="font-head font-bold">Type of Question</h1>
+						<div className="grid grid-cols-2">
+							{typeOfQuestion?.map((item, index) => {
+								return (
+									<div key={index} className="flex items-center gap-2">
+										<Checkbox
+											onChange={e => {
+												if (e?.target?.checked) {
+													setConfiguration({
+														...configuration,
+														typeOfQuestion: [
+															...((configuration?.typeOfQuestion || []) as string[]),
+															item as string
+														]
+													})
+												} else {
+													setConfiguration({
+														...configuration,
+														typeOfQuestion: configuration?.typeOfQuestion?.filter(
+															(i: string) => i !== item
+														)
+													})
+												}
+											}}
+											inputProps={{ 'aria-label': 'controlled' }}
+										/>
+										<h1 className="font-head text-[10px]">{item}</h1>
+									</div>
+								)
+							})}
+						</div>
 					</div>
 				</motion.div>
 			)}

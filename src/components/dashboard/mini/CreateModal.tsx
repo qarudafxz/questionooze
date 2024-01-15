@@ -34,7 +34,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 	const allowedFiles = ['pdf', 'pptx']
 	const createModal = useRef<HTMLDivElement>(null)
 	const fileInput = useRef<HTMLInputElement>(null)
-	const [dataOfFile, setDataOfFile] = useState<string | null>(null)
+	const [dataOfFile, setDataOfFile] = useState<File | null>(null)
 	const [loading, setLoading] = useState(false)
 
 	const handleCloseModal = (e: React.MouseEvent) => {
@@ -86,18 +86,13 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 	}
 
 	const handleFileRead = (file: File) => {
-		const reader = new FileReader()
-		reader.onload = () => {
-			const fileData = reader.result
-			setDataOfFile(fileData as string)
-		}
-		reader.readAsDataURL(file)
-
+		setDataOfFile(file)
 		setSelectedFileName(file.name)
 	}
 
 	const handleCreateQuestionnaire = async (e: React.MouseEvent) => {
 		e.preventDefault()
+
 		try {
 			setLoading(true)
 			const res = await createQuestionnaire(
@@ -106,7 +101,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 					title: form.title,
 					description: form.description
 				},
-				dataOfFile as string,
+				dataOfFile as File,
 				selectedFileName as string
 			)
 
@@ -116,6 +111,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 
 				setTimeout(() => {
 					getQuestions()
+					setIsCreate(false)
 					// navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
 					// 	replace: true,
 					// 	state: { id: res.data[0].id }

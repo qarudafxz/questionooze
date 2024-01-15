@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
 				<Nav questions={questions} />
 				{/* Content */}
 				<div className="flex flex-col gap-4">
-					<UserDetails label={'Questions'} />
+					<UserDetails label={'Questionnaires'} />
 					<div
 						className={`${
 							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5'
@@ -86,6 +86,7 @@ const Dashboard: React.FC = () => {
 											questions={question?.questions}
 											file_id={question?.file_id}
 											file_url={question?.file_url}
+											created_at={question?.created_at}
 										/>
 									)}
 								</div>

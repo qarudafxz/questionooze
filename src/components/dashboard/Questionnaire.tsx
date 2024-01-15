@@ -8,6 +8,7 @@ import UserDetails from './mini/UserDetails'
 import { getSpecificQuestionnaire } from '@/api/main'
 import { Questionnaire } from '@/types/global'
 import ConfigPanel from './ConfigPanel'
+import PDFPPTViewer from './mini/PDFPPTViewer'
 
 const Questionnaire: React.FC = () => {
 	const location = useLocation()
@@ -15,7 +16,7 @@ const Questionnaire: React.FC = () => {
 	const { theme } = useToggle()
 	const { questions } = useQuestionnaireStore()
 	const isMobile = useMedia('(max-width: 640px)')
-	const [question, setQuestion] = useState<Questionnaire>() // eslint-disable-line @typescript-eslint/no-unused-vars
+	const [question, setQuestion] = useState<Questionnaire>()
 
 	useEffect(() => {
 		const getQuestions = async () => {
@@ -25,6 +26,7 @@ const Questionnaire: React.FC = () => {
 
 		if (id) getQuestions()
 	}, [id])
+
 	return (
 		<div
 			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full ${
@@ -37,7 +39,7 @@ const Questionnaire: React.FC = () => {
 					<UserDetails label={question?.title ?? ''} />
 					<div
 						className={`${
-							isMobile ? 'px-10 flex flex-col gap-4' : 'px-44 grid grid-cols-9 gap-5'
+							isMobile ? 'px-10 flex flex-col gap-4' : 'px-44 grid grid-cols-10 gap-5'
 						} mt-4`}
 					>
 						{/* For Generation */}
@@ -45,7 +47,9 @@ const Questionnaire: React.FC = () => {
 							<ConfigPanel />
 						</div>
 						{/* For pdf/ppt preview */}
-						<div className="col-span-3"></div>
+						<div className="col-span-5">
+							<PDFPPTViewer pdf_ppt={question?.file_url} />
+						</div>
 						{/* For generated questions */}
 						<div className="col-span-3"></div>
 					</div>
