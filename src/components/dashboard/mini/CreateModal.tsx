@@ -221,7 +221,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 									Creating questionnaire
 								</>
 							) : (
-								'Create new questionnare'
+								'Create new questionnaire'
 							)}
 						</button>
 					</motion.div>

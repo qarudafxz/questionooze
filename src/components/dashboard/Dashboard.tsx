@@ -26,6 +26,7 @@ const Dashboard: React.FC = () => {
 		getQuestionnaires(user?.user_id)
 			.then(res => {
 				setQuestions(res?.fileData || ([] as Questionnaire[]))
+				console.log(questions)
 				setTimeout(() => {
 					setLoading(false)
 				}, 1200)
@@ -54,11 +55,12 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<div
-			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full ${
-				!isMobile && 'h-screen'
-			}`}
+			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
+			style={{
+				minHeight: '125vh'
+			}}
 		>
-			<div className="">
+			<div>
 				{/* Navbar */}
 				<Nav questions={questions} />
 				{/* Content */}
@@ -66,7 +68,7 @@ const Dashboard: React.FC = () => {
 					<UserDetails label={'Questionnaires'} />
 					<div
 						className={`${
-							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5'
+							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5 '
 						} mt-4`}
 					>
 						<CreateButton />

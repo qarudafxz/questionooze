@@ -66,6 +66,8 @@ export const createQuestionnaire = async (
 			type === 'pdf' ? 'pdfs/' : 'ppts/'
 		}${fileData?.path || ''}`
 
+		console.log(pdfUrl)
+
 		const { data, error: insertError } = await supabase
 			.from('questionnaires')
 			.insert({

@@ -29,9 +29,10 @@ const Questionnaire: React.FC = () => {
 
 	return (
 		<div
-			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full ${
-				!isMobile && 'h-screen'
-			}`}
+			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
+			style={{
+				minHeight: '124vh'
+			}}
 		>
 			<div className="">
 				<Nav questions={questions} />
@@ -39,7 +40,9 @@ const Questionnaire: React.FC = () => {
 					<UserDetails label={question?.title ?? ''} />
 					<div
 						className={`${
-							isMobile ? 'px-10 flex flex-col gap-4' : 'px-44 grid grid-cols-10 gap-5'
+							isMobile
+								? 'px-10 flex flex-col gap-4'
+								: 'pl-44 pr-20 grid grid-cols-11 gap-5'
 						} mt-4`}
 					>
 						{/* For Generation */}
@@ -51,7 +54,15 @@ const Questionnaire: React.FC = () => {
 							<PDFPPTViewer pdf_ppt={question?.file_path} />
 						</div>
 						{/* For generated questions */}
-						<div className="col-span-3"></div>
+						<div className="col-span-3">
+							<div className={`${theme === 'dark' ? 'bg-white' : ''} p-4 rounded-md`}>
+								<h1
+									className={`font-bold font-head ${isMobile ? 'text-xl' : 'text-2xl'}`}
+								>
+									Generated Questions
+								</h1>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
