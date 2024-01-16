@@ -7,6 +7,7 @@ import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 import { useToggle } from '@/store/toggle'
+import landing_gif from '@/assets/landing_gif.gif'
 
 const Landing: React.FC = () => {
 	const { theme } = useToggle()
@@ -27,8 +28,7 @@ const Landing: React.FC = () => {
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					backgroundRepeat: 'no-repeat',
-					width: '100%',
-					height: '100vh'
+					width: '100%'
 				}}
 			>
 				<Navbar />
@@ -49,11 +49,11 @@ const Landing: React.FC = () => {
 							isMobile
 								? 'text-md text-center mt-4'
 								: 'text-xl mt-4 w-3/4 text-center leading-[50px]'
-						} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
+						} ${theme === 'light' ? 'text-docs' : 'text-zinc-100'} duration-150`}
 					>
 						Experience a smarter way of generating questions, supercharged with AI.
-						Take your questions to the next level with Questionooze, Bloom's Taxonomy
-						aline.
+						Take your questions to the next level with Questionooze,{' '}
+						<span className="italic font-semibold">Bloom's Taxonomy</span> aline.
 					</p>
 					<div className={`flex justify-center items-center gap-8 font-main mt-10`}>
 						<button
@@ -81,9 +81,36 @@ const Landing: React.FC = () => {
 						</button>
 					</div>
 				</div>
+				<div className="flex flex-col gap-10 items-center justify-center mt-24">
+					<img src={landing_gif} className="w-3/4 rounded-t-[20px] shadow-2xl" />
+				</div>
 			</div>
+
 			{/* Product */}
-			<div className=""></div>
+			<div
+				className={`${theme === 'light' ? 'bg-[#111827]' : 'bg-white'} ${
+					isMobile ? 'px-10 py-24' : 'px-16 py-32'
+				} w-full flex flex-col items-center justify-center gap-8`}
+			>
+				<h1
+					className={`text-center font-bold ${isMobile ? 'text-2xl' : 'text-5xl'} ${
+						theme === 'light' ? 'text-white' : 'text-docs'
+					}`}
+				>
+					Create your questionnaires with ease
+				</h1>
+				<p
+					className={`font-main text-zinc-500 ${
+						isMobile
+							? 'text-md text-center mt-4'
+							: 'text-xl mt-4 w-3/4 text-center leading-[50px]'
+					} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
+				>
+					Embrace the power of AI to generate questions for your questionnaires—all
+					you need to do is upload your PDF or PPT file, configure a few settings,
+					and Questionooze will takethe rest.
+				</p>
+			</div>
 		</div>
 	)
 }
