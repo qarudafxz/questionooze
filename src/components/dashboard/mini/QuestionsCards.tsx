@@ -29,7 +29,9 @@ const QuestionsCards: React.FC<Props> = ({ title, file_url, created_at }) => {
 					style={{ overflow: 'hidden' }}
 				/>
 			</div>
-			<h1 className="font-bold text-2xl mt-4">{title}</h1>
+			<h1 className={'font-bold text-2xl mt-4'}>
+				{title?.length > 5 ? title.slice(0, 7) + '...' : title}
+			</h1>
 			<p className={`mt-2 ${isMobile ? 'text-sm' : 'text-[11px]'}`}>
 				Uploaded on{' '}
 				{created_at &&
