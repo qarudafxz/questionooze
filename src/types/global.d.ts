@@ -33,6 +33,13 @@ export interface Database {
 	}
 }
 
+export interface QuestionConfig {
+	numberOfQuestions: number
+	category: string[]
+	typeOfQuestion: string[]
+	difficulty: string
+}
+
 export interface Questionnaire {
 	id?: string
 	title: string
