@@ -7,7 +7,10 @@ import { useUserStore } from '@/store/user'
 import { IoMdLogOut } from 'react-icons/io'
 import { logOut } from '@/api/auth'
 
-const UserDetails: React.FC<{ label: string }> = ({ label }) => {
+const UserDetails: React.FC<{ label: string; description: string }> = ({
+	label,
+	description
+}) => {
 	const navigate = useNavigate()
 	const storage = localStorage.getItem(import.meta.env.VITE_SESSION_KEY)
 	const token = JSON.parse(storage as string)?.access_token
@@ -46,13 +49,24 @@ const UserDetails: React.FC<{ label: string }> = ({ label }) => {
 						theme === 'light' ? 'border-zinc-300' : 'border-[#1e2844]'
 					}`}
 				>
-					<h1
-						className={`${
-							theme === 'light' ? 'text-primary' : 'text-white'
-						} font-bold pl-24 font-head text-3xl`}
-					>
-						{label}
-					</h1>
+					<div className="flex flex-col gap-2">
+						<h1
+							className={`${
+								theme === 'light' ? 'text-primary' : 'text-white'
+							} font-bold pl-24 font-head text-3xl`}
+						>
+							{label}
+						</h1>
+						{description && (
+							<p
+								className={`${
+									theme === 'light' ? 'text-docs' : 'text-white'
+								} font-thin pl-24 font-head text-sm`}
+							>
+								{description}
+							</p>
+						)}
+					</div>
 					<div
 						className={`flex gap-4 items-center ${
 							theme === 'light' ? 'bg-zinc-200' : 'bg-[#090c14]'

@@ -5,7 +5,6 @@ interface Props {
 }
 
 const PDFPPTViewer: React.FC<Props> = ({ pdf_ppt }) => {
-	console.log(pdf_ppt)
 	if (!pdf_ppt) {
 		return null
 	}
@@ -14,7 +13,7 @@ const PDFPPTViewer: React.FC<Props> = ({ pdf_ppt }) => {
 		<div className="pdf-ppt-viewer">
 			<iframe
 				title="PDF/PPT Viewer"
-				src={`https://docs.google.com/gview?url=${pdf_ppt}&embedded=true`}
+				src={pdf_ppt}
 				loading="lazy"
 				style={{
 					width: '100%',

@@ -9,9 +9,11 @@ import { FcGoogle } from 'react-icons/fc'
 import { check } from '@/utils/check'
 import { toast, Toaster } from 'sonner'
 import { useUserStore } from '@/store/user'
+import LoadingBar from 'react-top-loading-bar'
 import bg from '@/assets/bg.jpg'
 
 const Login: React.FC = () => {
+	const [progress, setProgress] = useState(0)
 	const { setUser } = useUserStore()
 	const navigate = useNavigate()
 	const isMobile = useMedia('(max-width: 640px)')
@@ -22,6 +24,12 @@ const Login: React.FC = () => {
 
 	return (
 		<div className="font-main">
+			<LoadingBar
+				color="#6938EF"
+				progress={progress}
+				onLoaderFinished={() => setProgress(0)}
+				height={3}
+			/>
 			<Toaster position="bottom-left" />
 			<div
 				className={`w-full h-screen ${
@@ -85,6 +93,7 @@ const Login: React.FC = () => {
 						<Button
 							onClick={() => {
 								logIn(payload).then(res => {
+									setProgress(30)
 									if (check(res, 'logIn').error) {
 										toast.error(check(res, 'logIn').message)
 									} else {
@@ -95,6 +104,7 @@ const Login: React.FC = () => {
 											last_name: res?.user?.user_metadata?.last_name,
 											user_id: res.user?.id
 										})
+										setProgress(100)
 										setTimeout(() => {
 											navigate('/dashboard')
 										}, 1900)

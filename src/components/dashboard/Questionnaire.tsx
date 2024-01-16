@@ -37,7 +37,10 @@ const Questionnaire: React.FC = () => {
 			<div className="">
 				<Nav questions={questions} />
 				<div className="flex flex-col gap-4">
-					<UserDetails label={question?.title ?? ''} />
+					<UserDetails
+						label={question?.title ?? ''}
+						description={question?.description ?? ''}
+					/>
 					<div
 						className={`${
 							isMobile

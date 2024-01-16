@@ -12,6 +12,7 @@ import CreateButton from './mini/CreateButton'
 import CreateModal from './mini/CreateModal'
 import Skeleton from '@mui/material/Skeleton'
 import { useQuestionnaireStore } from '@/store/questions'
+import { Link } from 'react-router-dom'
 
 const Dashboard: React.FC = () => {
 	const { setQuestions, questions } = useQuestionnaireStore()
@@ -65,10 +66,12 @@ const Dashboard: React.FC = () => {
 				<Nav questions={questions} />
 				{/* Content */}
 				<div className="flex flex-col gap-4">
-					<UserDetails label={'Questionnaires'} />
+					<UserDetails label={'Questionnaires'} description="" />
 					<div
 						className={`${
-							isMobile ? 'px-10 flex flex-col gap-4' : 'px-40 grid grid-cols-6 gap-5 '
+							isMobile
+								? 'px-10 flex flex-col gap-4'
+								: 'px-40 grid grid-cols-6 gap-5 items-center'
 						} mt-4`}
 					>
 						<CreateButton />
@@ -81,15 +84,21 @@ const Dashboard: React.FC = () => {
 									{loading ? (
 										<Skeleton variant="rectangular" width={'100%'} height={'100%'} />
 									) : (
-										<QuestionsCards
-											id={question?.id}
-											title={question?.title}
-											description={question?.description}
-											questions={question?.questions}
-											file_id={question?.file_id}
-											file_url={question?.file_path}
-											created_at={question?.created_at}
-										/>
+										<Link
+											key={question?.id}
+											to={`/dashboard/questionnaire/${question?.id}`}
+											state={{ id: question?.id }}
+										>
+											<QuestionsCards
+												id={question?.id}
+												title={question?.title}
+												description={question?.description}
+												questions={question?.questions}
+												file_id={question?.file_id}
+												file_url={question?.file_path}
+												created_at={question?.created_at}
+											/>
+										</Link>
 									)}
 								</div>
 							))}

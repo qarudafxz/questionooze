@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { useMedia } from '@/hooks/useMedia'
 
 interface Props {
@@ -14,36 +14,22 @@ interface Props {
 	file_path?: string
 }
 
-const QuestionsCards: React.FC<Props> = ({
-	title,
-	description,
-	file_path,
-	created_at
-}) => {
+const QuestionsCards: React.FC<Props> = ({ title, file_url, created_at }) => {
 	const isMobile = useMedia('(max-width: 640px)')
-	const canvasRef = useRef<HTMLCanvasElement>(null)
 
-	useEffect(() => {
-		if (canvasRef.current) {
-			const canvas = canvasRef.current
-			const ctx = canvas.getContext('2d')
-			const img = new Image()
-			img.src = file_path as string
-
-			img.onload = function () {
-				if (ctx) {
-					ctx.drawImage(img, 0, 0)
-				}
-			}
-		}
-	}, [file_path])
 	return (
 		<div className="w-full h-full rounded-md font-main bg-white flex flex-col justify-center items-center py-2">
-			<div className="w-full h-1/2">
-				<canvas ref={canvasRef} className="w-full h-full" />
+			{/* Get the first page of the pdf and make it as the thumbnail */}
+			<div className="w-full overflow-hidden">
+				<iframe
+					src={file_url}
+					title={title}
+					className="w-full h-[150px]"
+					loading="lazy"
+					style={{ overflow: 'hidden' }}
+				/>
 			</div>
-			<h1 className="font-bold text-2xl">{title}</h1>
-			<p>{description}</p>
+			<h1 className="font-bold text-2xl mt-4">{title}</h1>
 			<p className={`mt-2 ${isMobile ? 'text-sm' : 'text-[11px]'}`}>
 				Uploaded on{' '}
 				{created_at &&
