@@ -48,6 +48,7 @@ export const createQuestionnaire = async (
 	fileName: string
 ) => {
 	try {
+		console.log(file)
 		const type = fileName.split('.').pop()
 
 		const { data: fileData, error: fileError } = await supabase.storage
@@ -55,11 +56,14 @@ export const createQuestionnaire = async (
 			.upload(`${userId}/${fileName}`, file!, {
 				upsert: false,
 				contentType:
-					type === 'pdf' ? 'application/pdf' : 'application/vnd.ms-powerpoint'
+					type === 'pdf'
+						? 'application/pdf'
+						: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
 			})
 
 		if (fileError) {
-			throw new Error('Error uploading file')
+			console.log(fileError)
+			throw new Error()
 		}
 
 		const pdfUrl = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}${

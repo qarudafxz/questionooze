@@ -120,8 +120,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 			}
 		} catch (err) {
 			setLoading(false)
-			console.error(err)
-			toast.error('Failed to create questionnaire')
+			toast.error((err as Error).stack)
 		}
 	}
 

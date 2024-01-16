@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMedia } from '@/hooks/useMedia'
 import Thumb from '@/components/landing/Thumb'
@@ -6,6 +6,7 @@ import { useToggle } from '@/store/toggle'
 import { useUserStore } from '@/store/user'
 import { IoMdLogOut } from 'react-icons/io'
 import { logOut } from '@/api/auth'
+import LoadingBar from 'react-top-loading-bar'
 
 const UserDetails: React.FC<{ label: string; description: string }> = ({
 	label,
@@ -17,9 +18,16 @@ const UserDetails: React.FC<{ label: string; description: string }> = ({
 	const { user } = useUserStore()
 	const { theme } = useToggle()
 	const isMobile = useMedia('(max-width: 640px)')
+	const [progress, setProgress] = useState(0)
 
 	return (
 		<div>
+			<LoadingBar
+				color="#6938EF"
+				progress={progress}
+				onLoaderFinished={() => setProgress(0)}
+				height={3}
+			/>
 			{isMobile ? (
 				<div className="flex justify-between items-center pl-10 px-4 py-4">
 					<div className=""></div>
@@ -28,7 +36,9 @@ const UserDetails: React.FC<{ label: string; description: string }> = ({
 						<button
 							onClick={() =>
 								logOut(token).then(res => {
+									setProgress(30)
 									if (res) {
+										setProgress(100)
 										setTimeout(() => {
 											navigate('/login')
 										}, 1500)
