@@ -1,12 +1,14 @@
+/* eslint-disable no-dupe-else-if */
 //eslint-disable-next-line
 //@ts-nocheck
 import React, { useState, useEffect } from 'react'
 import { useToggle } from '@/store/toggle'
 import { useMedia } from '@/hooks/useMedia'
 import HorizontalSteps from './mini/HorizontalSteps'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import data from '@/data/blooms_taxonomy.json'
 import { Checkbox, Slider } from '@mui/material'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const ConfigPanel: React.FC = () => {
 	const [active, setActive] = useState(0)
@@ -15,31 +17,38 @@ const ConfigPanel: React.FC = () => {
 	const [configuration, setConfiguration] = useState({
 		numberOfQuestions: 0,
 		category: [],
-		typeOfQuestion: [],
-		difficulty: ''
+		typeOfQuestion: []
 	})
+	const [loading, setLoading] = useState(false)
 
 	const typeOfQuestion = [
 		'Multiple choice',
 		'Fill in the blanks',
 		'True or False',
-		'Situational/Explanation'
+		'Situational'
 	]
 
-	useEffect(() => {
-		const { numberOfQuestions, category, typeOfQuestion, difficulty } =
-			configuration || {}
+	const handleGenerateQuestionnaire = async () => {
+		try {
+			setLoading(true)
+		} catch (err) {
+			console.log(err)
+		}
+	}
 
-		if (numberOfQuestions > 0) {
-			setActive(1)
-		} else if (
+	useEffect(() => {
+		const { numberOfQuestions, category, typeOfQuestion } = configuration || {}
+
+		if (
 			category.length > 0 &&
 			typeOfQuestion.length > 0 &&
-			difficulty !== ''
+			numberOfQuestions > 0
 		) {
 			setActive(3)
 		} else if (category.length > 0 && typeOfQuestion.length > 0) {
 			setActive(2)
+		} else if (numberOfQuestions > 0) {
+			setActive(1)
 		} else {
 			setActive(0)
 		}
@@ -85,59 +94,29 @@ const ConfigPanel: React.FC = () => {
 					/>
 				</div>
 			</div>
-			{active >= 1 && (
-				<motion.div
-					initial={{ opacity: 0, y: -20 }}
-					animate={{ opacity: 1, y: 0 }}
-					exit={{ opacity: 0, y: -20 }}
-					transition={{ duration: 0.5 }}
-					className={`${
-						theme === 'light' ? 'bg-dark text-white' : 'bg-zinc-700 text-zinc-300'
-					} rounded-lg p-4`}
-				>
-					<h1
-						className={`font-head font-semibold ${isMobile ? 'text-lg' : 'text-xl'} ${
-							theme === 'light' ? 'bg-docs text-white' : 'bg-zinc-650 text-zinc-300'
-						}`}
+			<AnimatePresence>
+				{active >= 1 && (
+					<motion.div
+						initial={{ opacity: 0, y: -20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -20 }}
+						transition={{ duration: 0.5 }}
+						className={`${
+							theme === 'light' ? 'bg-dark text-white' : 'bg-zinc-700 text-zinc-300'
+						} rounded-lg p-4`}
 					>
-						Category
-					</h1>
-					{/* Blooms */}
-					<div className={`grid  ${isMobile ? 'grid-cols-2' : 'grid-cols-2'}`}>
-						{data?.map((item, index) => {
-							return (
-								<div key={index} className="flex items-center gap-2">
-									<Checkbox
-										onChange={e => {
-											if (e?.target?.checked) {
-												setConfiguration({
-													...configuration,
-													category: [
-														...((configuration?.category || []) as string[]), // Explicitly specify the type
-														item?.category || ''
-													]
-												})
-											} else {
-												setConfiguration({
-													...configuration,
-													category: configuration?.category?.filter(
-														(i: string) => i !== item?.category
-													)
-												})
-											}
-										}}
-										inputProps={{ 'aria-label': 'controlled' }}
-									/>
-									<h1 className="font-head text-[10px]">{item?.category}</h1>
-								</div>
-							)
-						})}
-					</div>
-					{/* Type of questionnaire ["Multiple choice", "Fill in the blanks", "True or False", "Situational"] */}
-					<div className="mt-4">
-						<h1 className="font-head font-bold">Type of Question</h1>
-						<div className="grid grid-cols-2">
-							{typeOfQuestion?.map((item, index) => {
+						<h1
+							className={`font-head font-semibold ${
+								isMobile ? 'text-lg' : 'text-xl'
+							} ${
+								theme === 'light' ? 'bg-docs text-white' : 'bg-zinc-650 text-zinc-300'
+							}`}
+						>
+							Category
+						</h1>
+						{/* Blooms */}
+						<div className={`grid  ${isMobile ? 'grid-cols-2' : 'grid-cols-2'}`}>
+							{data?.map((item, index) => {
 								return (
 									<div key={index} className="flex items-center gap-2">
 										<Checkbox
@@ -145,30 +124,93 @@ const ConfigPanel: React.FC = () => {
 												if (e?.target?.checked) {
 													setConfiguration({
 														...configuration,
-														typeOfQuestion: [
-															...((configuration?.typeOfQuestion || []) as string[]),
-															item as string
+														category: [
+															...((configuration?.category || []) as string[]),
+															item?.category || ''
 														]
 													})
 												} else {
 													setConfiguration({
 														...configuration,
-														typeOfQuestion: configuration?.typeOfQuestion?.filter(
-															(i: string) => i !== item
+														category: configuration?.category?.filter(
+															(i: string) => i !== item?.category
 														)
 													})
 												}
 											}}
 											inputProps={{ 'aria-label': 'controlled' }}
 										/>
-										<h1 className="font-head text-[10px]">{item}</h1>
+										<h1 className="font-head text-[10px]">{item?.category}</h1>
 									</div>
 								)
 							})}
 						</div>
-					</div>
-				</motion.div>
-			)}
+						<div className="mt-4">
+							<h1 className="font-head font-bold">Type of Question</h1>
+							<div className="grid grid-cols-2">
+								{typeOfQuestion?.map((item, index) => {
+									return (
+										<div key={index} className="flex items-center gap-2">
+											<Checkbox
+												onChange={e => {
+													if (e?.target?.checked) {
+														setConfiguration({
+															...configuration,
+															typeOfQuestion: [
+																...((configuration?.typeOfQuestion || []) as string[]),
+																item as string
+															]
+														})
+													} else {
+														setConfiguration({
+															...configuration,
+															typeOfQuestion: configuration?.typeOfQuestion?.filter(
+																(i: string) => i !== item
+															)
+														})
+													}
+												}}
+												inputProps={{ 'aria-label': 'controlled' }}
+											/>
+											<h1 className="font-head text-[10px]">{item}</h1>
+										</div>
+									)
+								})}
+							</div>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<AnimatePresence>
+				{active >= 3 && (
+					<motion.button
+						initial={{ opacity: 0, y: -20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -20 }}
+						onClick={e => handleGenerateQuestionnaire(e)}
+						className={`bg-mid text-white py-2 rounded-md text-center font-bold w-full ${
+							loading &&
+							'flex gap-4 place-items-center justify-center bg-[#9068ff] opacity-5'
+						}`}
+					>
+						{loading ? (
+							<>
+								<motion.div
+									animate={{
+										rotate: 360
+									}}
+									transition={{ repeat: Infinity, duration: 0.4, ease: 'linear' }}
+								>
+									<AiOutlineLoading3Quarters size={15} />
+								</motion.div>
+								Generating questions
+							</>
+						) : (
+							'Generate Questions'
+						)}
+					</motion.button>
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }

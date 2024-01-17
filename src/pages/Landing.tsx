@@ -42,14 +42,14 @@ const Landing: React.FC = () => {
 							isMobile ? 'text-5xl' : 'text-[58px]'
 						} font-bold font-head ${theme === 'light' ? 'text-docs' : 'text-white'}`}
 					>
-						Quality Questions, here we go!
+						Quality Questions Made Easy
 					</h1>
 					<p
-						className={`font-main text-zinc-500 ${
+						className={`font-main ${
 							isMobile
 								? 'text-md text-center mt-4'
 								: 'text-xl mt-4 w-3/4 text-center leading-[50px]'
-						} ${theme === 'light' ? 'text-docs' : 'text-zinc-100'} duration-150`}
+						} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
 					>
 						Experience a smarter way of generating questions, supercharged with AI.
 						Take your questions to the next level with Questionooze,{' '}

@@ -48,8 +48,8 @@ const Nav: React.FC<Props> = ({ questions }) => {
 				animate={{ x: isOpen ? (isMobile ? -120 : 0) : isMobile ? -240 : -140 }}
 				transition={{ duration: 0.2 }}
 				className={`${
-					isMobile ? 'ml-2 w-64' : 'px-6 w-[300px]'
-				} font-main py-10 h-[900px] shadow-2xl absolute z-10 ${
+					isMobile ? 'ml-2 w-64 h-[1000px]' : 'px-6 w-[300px]  min-h-[945px]'
+				} font-main py-10 shadow-2xl absolute z-10 ${
 					theme === 'light'
 						? 'bg-[#dfdfdf] border-zinc-400 duration-100'
 						: 'bg-[#0b0f19] duration-100'

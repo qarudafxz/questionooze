@@ -31,7 +31,7 @@ const Questionnaire: React.FC = () => {
 		<div
 			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
 			style={{
-				minHeight: '124vh'
+				minHeight: '130vh'
 			}}
 		>
 			<div className="">

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useToggle } from '@/store/toggle'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Input, Textarea } from '@chakra-ui/react'
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const CreateModal: React.FC<Props> = ({ getQuestions }) => {
-	// const navigate = useNavigate()
+	const navigate = useNavigate()
 	const { user } = useUserStore()
 	const isMobile = useMedia('(max-width: 640px)')
 	const { isCreate, setIsCreate } = useToggle()
@@ -112,10 +112,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 				setTimeout(() => {
 					getQuestions()
 					setIsCreate(false)
-					// navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
-					// 	replace: true,
-					// 	state: { id: res.data[0].id }
-					// })
+					navigate(`/dashboard/questionnaire/${res.data[0].id}`, {
+						replace: true,
+						state: { id: res.data[0].id }
+					})
 				}, 1500)
 			}
 		} catch (err) {
