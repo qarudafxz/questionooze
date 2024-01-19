@@ -9,8 +9,15 @@ import { AnimatePresence, motion } from 'framer-motion'
 import data from '@/data/blooms_taxonomy.json'
 import { Checkbox, Slider } from '@mui/material'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { build } from '@/utils/build'
+import { useQuestionnaireStore } from '@/store/questions'
 
-const ConfigPanel: React.FC = () => {
+interface Props {
+	extracted: string | null
+}
+
+const ConfigPanel: React.FC<Props> = ({ extracted }) => {
+	const { setGeneratedQuestion } = useQuestionnaireStore()
 	const [active, setActive] = useState(0)
 	const { theme } = useToggle()
 	const isMobile = useMedia('(max-width: 640px)')
@@ -19,6 +26,7 @@ const ConfigPanel: React.FC = () => {
 		category: [],
 		typeOfQuestion: []
 	})
+
 	const [loading, setLoading] = useState(false)
 
 	const typeOfQuestion = [
@@ -31,8 +39,30 @@ const ConfigPanel: React.FC = () => {
 	const handleGenerateQuestionnaire = async () => {
 		try {
 			setLoading(true)
+
+			await fetch(build('/question-generator'), {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					config: { ...configuration },
+					context: extracted
+				})
+			}).then(async res => {
+				const data = await res.json()
+
+				if (!res.status === 200) {
+					throw new Error(data?.message || 'An error occured')
+				}
+
+				setGeneratedQuestion(data?.content)
+				toast.success('Questions generated successfully')
+			})
 		} catch (err) {
 			console.log(err)
+		} finally {
+			setLoading(false)
 		}
 	}
 
