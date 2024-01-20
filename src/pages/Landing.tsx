@@ -126,19 +126,19 @@ const Landing: React.FC = () => {
 								<button
 									onClick={() => setActive(feature.image)}
 									key={feature.image}
-									className={`text-left flex flex-col gap-2 justify-left items-left rounded-md p-4 ${
-										theme === 'light' ? ' text-zinc-400' : 'text-docs'
-									} ${
-										active === feature.image &&
-										theme === 'light' &&
-										'bg-[#161f33] border border-[#2d3f66] text-white'
+									className={`text-left flex flex-col gap-2 justify-left items-left rounded-md p-4  ${
+										active === feature.image && theme === 'light'
+											? 'bg-[#161f33] border border-[#2d3f66] text-white'
+											: active === feature.image && theme === 'dark'
+											? 'bg-[#ebebeb] border border-[#b0b0b0] text-primary'
+											: 'text-zinc-500'
 									} duration-150'
 									}`}
 								>
 									<h1
-										className={`font-bold text-xl  ${isMobile ? 'text-lg' : 'text-xl'}`}
+										className={`font-bold text-xl  ${isMobile ? 'text-lg' : 'text-xl'} `}
 									>
-										{feature.title}
+										{feature?.title}
 									</h1>
 									<p>{feature?.description}</p>
 								</button>
