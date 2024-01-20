@@ -12,6 +12,8 @@ import ConfigPanel from './ConfigPanel'
 import PDFPPTViewer from './mini/PDFPPTViewer'
 import { build } from '@/utils/build'
 import { formatter } from '@/libs/generatedQuestionFormatter'
+import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
+import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
 
 const Questionnaire: React.FC = () => {
 	const { generatedQuestion } = useQuestionnaireStore()
@@ -64,6 +66,20 @@ const Questionnaire: React.FC = () => {
 				setExtractedPdf(data as string)
 			})
 	}, [question?.file_path])
+
+	useEffect(() => {
+		const update = async () => {
+			const res = await addGeneratedQuestionToQuestionnaire(
+				id,
+				extractedPdf,
+				formattedQuestions
+			)
+
+			console.log(res)
+		}
+		if (formattedQuestions && extractedPdf) update()
+	}, [formattedQuestions, extractedPdf, id])
+
 	return (
 		<div
 			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
@@ -102,7 +118,7 @@ const Questionnaire: React.FC = () => {
 									Generated Questions
 								</h1>
 								{generatedQuestion && (
-									<div dangerouslySetInnerHTML={{ __html: formattedQuestions }} />
+									<StreamingFormattedQuestions formattedQuestions={formattedQuestions} />
 								)}
 							</div>
 						</div>

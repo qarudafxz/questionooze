@@ -11,6 +11,7 @@ import { Checkbox, Slider } from '@mui/material'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { build } from '@/utils/build'
 import { useQuestionnaireStore } from '@/store/questions'
+import { useSession } from '@/hooks/useSession'
 
 interface Props {
 	extracted: string | null
@@ -21,6 +22,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 	const [active, setActive] = useState(0)
 	const { theme } = useToggle()
 	const isMobile = useMedia('(max-width: 640px)')
+	const token = useSession()
 	const [configuration, setConfiguration] = useState({
 		numberOfQuestions: 0,
 		category: [],
@@ -43,7 +45,8 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 			await fetch(build('/question-generator'), {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`
 				},
 				body: JSON.stringify({
 					config: { ...configuration },

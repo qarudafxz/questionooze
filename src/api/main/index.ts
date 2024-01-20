@@ -112,3 +112,25 @@ export const getSpecificQuestionnaire = async (id: string) => {
 		console.error(err)
 	}
 }
+
+export const addGeneratedQuestionToQuestionnaire = async (
+	id: string,
+	context: string,
+	question: string
+) => {
+	try {
+		const { data, error } = await supabase
+			.from('questionnaires')
+			.update({ context: context, questions: question })
+			.eq('id', id)
+			.select()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return { data }
+	} catch (err) {
+		console.error(err)
+	}
+}
