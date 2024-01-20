@@ -41,7 +41,7 @@ const Questionnaire: React.FC = () => {
 			)
 
 			const data = await response.json()
-			console.log(data)
+
 			if (typeof data.context === 'string') {
 				return data.context
 			}
@@ -128,7 +128,7 @@ const Questionnaire: React.FC = () => {
 								) : (
 									<textarea
 										readOnly={!editQuestions}
-										className="w-full overflow-y-auto"
+										className="w-full h-screen"
 										defaultValue={formattedQuestions}
 										onChange={e => setGeneratedQuestion(e.target.value)}
 									/>

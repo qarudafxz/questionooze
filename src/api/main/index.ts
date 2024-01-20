@@ -48,7 +48,6 @@ export const createQuestionnaire = async (
 	fileName: string
 ) => {
 	try {
-		console.log(file)
 		const type = fileName.split('.').pop()
 
 		const { data: fileData, error: fileError } = await supabase.storage
@@ -69,8 +68,6 @@ export const createQuestionnaire = async (
 		const pdfUrl = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}${
 			type === 'pdf' ? 'pdfs/' : 'ppts/'
 		}${fileData?.path || ''}`
-
-		console.log(pdfUrl)
 
 		const { data, error: insertError } = await supabase
 			.from('questionnaires')
