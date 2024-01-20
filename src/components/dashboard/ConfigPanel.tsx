@@ -12,6 +12,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { build } from '@/utils/build'
 import { useQuestionnaireStore } from '@/store/questions'
 import { useSession } from '@/hooks/useSession'
+import { toast, Toaster } from 'sonner'
 
 interface Props {
 	extracted: string | null
@@ -63,6 +64,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 				toast.success('Questions generated successfully')
 			})
 		} catch (err) {
+			toast.error(err.message)
 			console.log(err)
 		} finally {
 			setLoading(false)
@@ -89,6 +91,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 
 	return (
 		<div className="flex flex-col gap-4">
+			<Toaster position="top-center" />
 			<h1
 				className={`font-head font-bold ${isMobile ? 'text-xl' : 'text-2xl'} ${
 					theme === 'light' ? 'text-mid' : 'text-white'
@@ -121,6 +124,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 							})
 						}
 						defaultValue={0}
+						max={20}
 						aria-label="Default"
 						valueLabelDisplay="auto"
 						color="secondary"
