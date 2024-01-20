@@ -14,9 +14,10 @@ import { build } from '@/utils/build'
 import { formatter } from '@/libs/generatedQuestionFormatter'
 import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
 import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
+import { FiEdit } from 'react-icons/fi'
 
 const Questionnaire: React.FC = () => {
-	const { generatedQuestion } = useQuestionnaireStore()
+	const { generatedQuestion, setGeneratedQuestion } = useQuestionnaireStore()
 	const location = useLocation()
 	const { id } = location.state as { id: string }
 	const { theme } = useToggle()
@@ -24,6 +25,7 @@ const Questionnaire: React.FC = () => {
 	const isMobile = useMedia('(max-width: 640px)')
 	const [question, setQuestion] = useState<Questionnaire>()
 	const [extractedPdf, setExtractedPdf] = useState<string>('')
+	const [editQuestions, setEditQuestions] = useState(false)
 	const formattedQuestions = formatter(generatedQuestion)
 
 	const extractPdf = async () => {
@@ -39,9 +41,9 @@ const Questionnaire: React.FC = () => {
 			)
 
 			const data = await response.json()
-
-			if (typeof data === 'string') {
-				return data
+			console.log(data)
+			if (typeof data.context === 'string') {
+				return data.context
 			}
 
 			return null
@@ -69,13 +71,11 @@ const Questionnaire: React.FC = () => {
 
 	useEffect(() => {
 		const update = async () => {
-			const res = await addGeneratedQuestionToQuestionnaire(
+			await addGeneratedQuestionToQuestionnaire(
 				id,
 				extractedPdf,
 				formattedQuestions
 			)
-
-			console.log(res)
 		}
 		if (formattedQuestions && extractedPdf) update()
 	}, [formattedQuestions, extractedPdf, id])
@@ -112,13 +112,26 @@ const Questionnaire: React.FC = () => {
 						{/* For generated questions */}
 						<div className="col-span-3 h-screen overflow-y-auto bg-">
 							<div className={`${theme === 'dark' ? 'bg-white' : ''} p-4 rounded-md`}>
-								<h1
-									className={`font-bold font-head ${isMobile ? 'text-xl' : 'text-2xl'}`}
-								>
-									Generated Questions
-								</h1>
-								{generatedQuestion && (
+								<div className="flex justify-between items-center mb-4">
+									<h1
+										className={`font-bold font-head ${isMobile ? 'text-md' : 'text-xl'}`}
+									>
+										Generated Questions
+									</h1>
+									<button onClick={() => setEditQuestions(!editQuestions)}>
+										<FiEdit />
+									</button>
+								</div>
+
+								{!editQuestions && generatedQuestion ? (
 									<StreamingFormattedQuestions formattedQuestions={formattedQuestions} />
+								) : (
+									<textarea
+										readOnly={!editQuestions}
+										className="w-full overflow-y-auto"
+										defaultValue={formattedQuestions}
+										onChange={e => setGeneratedQuestion(e.target.value)}
+									/>
 								)}
 							</div>
 						</div>

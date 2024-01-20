@@ -30,7 +30,7 @@ app.get('/api/pdf-parse', async (req, res) => {
 		const data = await pdf(dataBuffer)
 		const text = data.text.replace(/\/n/g, '\n')
 
-		return res.status(200).json(text)
+		return res.status(200).json({ context: text })
 	} catch (err) {
 		console.error(err)
 		res.status(500).send('Internal Server Error')

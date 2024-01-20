@@ -152,7 +152,7 @@ const Nav: React.FC<Props> = ({ questions }) => {
 												<h1
 													className={`${theme === 'light' ? 'text-mid' : 'text-white'} ${
 														!isOpen && 'hidden'
-													} col-span-2`}
+													} col-span-2 ${!isMobile && 'text-[12px] w-[140px]'}`}
 												>
 													{question?.title}
 												</h1>
