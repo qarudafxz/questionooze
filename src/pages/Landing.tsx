@@ -117,7 +117,9 @@ const Landing: React.FC = () => {
 				</p>
 				<div
 					className={`mt-5 ${
-						isMobile ? 'flex flex-col gap-4 px-4' : 'grid grid-cols-7 px-44'
+						isMobile
+							? 'flex flex-col gap-4 px-4 items-center'
+							: 'grid grid-cols-7 px-44 items-center'
 					}`}
 				>
 					<div className="col-span-2 flex flex-col">
