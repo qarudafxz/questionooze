@@ -7,12 +7,16 @@ import { useMedia } from '@/hooks/useMedia'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { motion } from 'framer-motion'
 import { useToggle } from '@/store/toggle'
-import landing_gif from '@/assets/landing_gif.gif'
+import first from '@/assets/1.gif'
+import second from '@/assets/2.gif'
+import third from '@/assets/3.gif'
+import features from '@/data/features.json'
 
 const Landing: React.FC = () => {
 	const { theme } = useToggle()
 	const navigate = useNavigate()
 	const [hovered, setHovered] = useState(false)
+	const [active, setActive] = useState('_1')
 	const isMobile = useMedia('(max-width: 640px)')
 	const { navReference } = useNavStore()
 
@@ -82,12 +86,13 @@ const Landing: React.FC = () => {
 					</div>
 				</div>
 				<div className="flex flex-col gap-10 items-center justify-center mt-24">
-					<img src={landing_gif} className="w-3/4 rounded-t-[20px] shadow-2xl" />
+					<img src={third} className="w-3/4 rounded-t-[20px] shadow-2xl" />
 				</div>
 			</div>
 
 			{/* Product */}
 			<div
+				id="product"
 				className={`${theme === 'light' ? 'bg-[#111827]' : 'bg-white'} ${
 					isMobile ? 'px-10 py-24' : 'px-16 py-32'
 				} w-full flex flex-col items-center justify-center gap-8`}
@@ -110,6 +115,42 @@ const Landing: React.FC = () => {
 					you need to do is upload your PDF or PPT file, configure a few settings,
 					and Questionooze will takethe rest.
 				</p>
+				<div
+					className={`mt-5 ${
+						isMobile ? 'flex flex-col gap-4 px-4' : 'grid grid-cols-7 px-44'
+					}`}
+				>
+					<div className="col-span-2 flex flex-col">
+						{features?.map(feature => {
+							return (
+								<button
+									onClick={() => setActive(feature.image)}
+									key={feature.image}
+									className={`text-left flex flex-col gap-2 justify-left items-left rounded-md p-4 ${
+										theme === 'light' ? ' text-zinc-400' : 'text-docs'
+									} ${
+										active === feature.image &&
+										theme === 'light' &&
+										'bg-[#161f33] border border-[#2d3f66]'
+									} duration-150`}
+								>
+									<h1
+										className={`font-bold text-xl  ${isMobile ? 'text-lg' : 'text-xl'}`}
+									>
+										{feature.title}
+									</h1>
+									<p>{feature?.description}</p>
+								</button>
+							)
+						})}
+					</div>
+					<div className="col-span-5">
+						<img
+							src={active === 'first' ? first : active === 'second' ? second : third}
+							className="w-full rounded-md shadow-2xl"
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

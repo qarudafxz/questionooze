@@ -1,0 +1,17 @@
+[
+	{
+		"title": "Simplistic questionnaire creation",
+		"description": "A user-friendly tool designed to facilitate the easy and straightforward creation of questionnaires for various purposes.",
+		"image": "first"
+	},
+	{
+		"title": "Bloom's Taxonomy of Learning Domains",
+		"description": "An educational framework that classifies learning objectives into cognitive, affective, and psychomotor domains, aiding in the development and assessment of educational activities.",
+		"image": "second"
+	},
+	{
+		"title": "Driven By AI",
+		"description": "Incorporates artificial intelligence to power and enhance the functionality, performance, or decision-making processes of the associated feature.",
+		"image": "third"
+	}
+]

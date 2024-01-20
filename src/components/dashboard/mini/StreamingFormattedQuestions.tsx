@@ -11,7 +11,7 @@ const StreamingFormattedQuestions: React.FC<{ formattedQuestions: string }> = ({
 			setStreamedText(prevText => prevText + formattedQuestions[index])
 			index += 1
 
-			if (index === formattedQuestions.length) {
+			if (index === formattedQuestions.length - 1) {
 				clearInterval(interval)
 			}
 		}, 10)
