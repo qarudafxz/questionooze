@@ -131,8 +131,9 @@ const Landing: React.FC = () => {
 									} ${
 										active === feature.image &&
 										theme === 'light' &&
-										'bg-[#161f33] border border-[#2d3f66]'
-									} duration-150`}
+										'bg-[#161f33] border border-[#2d3f66] text-white'
+									} duration-150'
+									}`}
 								>
 									<h1
 										className={`font-bold text-xl  ${isMobile ? 'text-lg' : 'text-xl'}`}
