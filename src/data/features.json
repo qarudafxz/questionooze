@@ -6,12 +6,12 @@
 	},
 	{
 		"title": "Bloom's Taxonomy of Learning Domains",
-		"description": "An educational framework that classifies learning objectives into cognitive, affective, and psychomotor domains, aiding in the development and assessment of educational activities.",
+		"description": "An educational framework that classifies learning objectives which aligns the quality questions.",
 		"image": "second"
 	},
 	{
 		"title": "Driven By AI",
-		"description": "Incorporates artificial intelligence to power and enhance the functionality, performance, or decision-making processes of the associated feature.",
+		"description": "Incorporates artificial intelligence to power , enhance performance, and decision-making processes of generating questions.",
 		"image": "third"
 	}
 ]

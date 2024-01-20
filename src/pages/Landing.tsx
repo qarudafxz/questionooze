@@ -119,10 +119,10 @@ const Landing: React.FC = () => {
 					className={`mt-5 ${
 						isMobile
 							? 'flex flex-col gap-4 px-4 items-center'
-							: 'grid grid-cols-7 px-44 items-center'
+							: 'grid grid-cols-8 px-20 items-center'
 					}`}
 				>
-					<div className="col-span-2 flex flex-col">
+					<div className="col-span-3 flex flex-col">
 						{features?.map(feature => {
 							return (
 								<button
