@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-extra-semi */
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -15,8 +16,10 @@ import { formatter } from '@/libs/generatedQuestionFormatter'
 import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
 import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
 import { FiEdit } from 'react-icons/fi'
+import { useSession } from '@/hooks/useSession'
 
 const Questionnaire: React.FC = () => {
+	const token = useSession()
 	const { generatedQuestion, setGeneratedQuestion } = useQuestionnaireStore()
 	const location = useLocation()
 	const { id } = location.state as { id: string }
@@ -35,7 +38,8 @@ const Questionnaire: React.FC = () => {
 				{
 					method: 'GET',
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token?.token}`
 					}
 				}
 			)

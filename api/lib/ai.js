@@ -21,6 +21,7 @@ const openai = new OpenAI({
 
 export const questionGenerator = async (config, context) => {
 	try {
+		console.log('Generating questions...')
 		const { numberOfQuestions, category, typeOfQuestion } = config
 
 		const prompt = `This is a custom prompt:
@@ -31,7 +32,7 @@ export const questionGenerator = async (config, context) => {
 			Type of Question: ${typeOfQuestion}
 
 
-			The context is:
+			Focus on the context, The context is:
 	 	${context}
 
 			P.S. Always return the question in the following format:
@@ -48,6 +49,7 @@ export const questionGenerator = async (config, context) => {
 			temperature: 0.7
 		})
 
+		console.log('Questions generated successfully!')
 		return response?.choices[0]?.message
 	} catch (err) {
 		throw new Error('Error generating quesstions')

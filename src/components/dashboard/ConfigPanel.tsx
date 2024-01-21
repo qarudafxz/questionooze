@@ -38,7 +38,6 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 		'True or False',
 		'Situational'
 	]
-
 	const handleGenerateQuestionnaire = async () => {
 		try {
 			setLoading(true)
@@ -47,7 +46,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`
+					Authorization: `Bearer ${token?.token}`
 				},
 				body: JSON.stringify({
 					config: { ...configuration },
