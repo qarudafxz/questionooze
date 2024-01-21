@@ -117,6 +117,13 @@ const CreateModal: React.FC<Props> = ({
 	const handleEditQuestionnaire = async (e: React.MouseEvent) => {
 		e.preventDefault()
 
+		if (!questionnaire_id || !user?.user_id) return
+
+		if (!form.title && !form.description && !dataOfFile && !selectedFileName) {
+			toast.error('Please fill all the fields.')
+			return
+		}
+
 		try {
 			setLoading(true)
 			const res = await updateQuestionnaire(
