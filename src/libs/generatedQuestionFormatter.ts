@@ -1,5 +1,4 @@
 export const formatter = (question: string): string => {
-	console.log(question)
 	// Split the input string into an array of lines
 	const lines = question.split('\n')
 

@@ -61,6 +61,6 @@ export const questionGenerator = async (config, context, blooms_taxonomy) => {
 		console.log('Questions generated successfully!')
 		return response?.choices[0]?.message
 	} catch (err) {
-		throw new Error('Error generating quesstions')
+		throw new Error('Error generating questions')
 	}
 }

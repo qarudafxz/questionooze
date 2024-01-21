@@ -14,6 +14,7 @@ import { useQuestionnaireStore } from '@/store/questions'
 import { useSession } from '@/hooks/useSession'
 import { toast, Toaster } from 'sonner'
 import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
+import axios from 'axios'
 
 interface Props {
 	extracted: string | null
@@ -40,6 +41,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 		'True or False',
 		'Situational'
 	]
+
 	const handleGenerateQuestionnaire = async () => {
 		const { category } = configuration
 
@@ -49,38 +51,42 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 
 		try {
 			setLoading(true)
-
-			await fetch(build('/question-generator'), {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token?.token}`
-				},
-				body: JSON.stringify({
+			//build('/question-generator')
+			const response = await axios.post(
+				build('/question-generator'),
+				{
 					config: { ...configuration },
 					blooms_taxonomy: keywords,
 					context: extracted
-				})
-			}).then(async res => {
-				const data = await res.json()
-
-				if (!res.status === 200) {
-					throw new Error(data?.message || 'An error occured')
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token?.token}`,
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+					}
 				}
+			)
 
-				setGeneratedQuestion(data?.content)
-				toast.success('Questions generated successfully')
+			const data = response.data
 
-				//update the questions and context in the questionnaire table
-				await addGeneratedQuestionToQuestionnaire(
-					questionnaire_id,
-					extracted,
-					data?.content
-				)
-			})
+			if (response.status !== 200) {
+				throw new Error(data?.message || 'An error occurred')
+			}
+
+			setGeneratedQuestion(data?.content)
+			toast.success('Questions generated successfully')
+
+			// Update the questions and context in the questionnaire table
+			await addGeneratedQuestionToQuestionnaire(
+				questionnaire_id,
+				extracted,
+				data?.content
+			)
 		} catch (err) {
 			toast.error(err.message)
-			console.log(err)
+			console.error(err)
 		} finally {
 			setLoading(false)
 		}

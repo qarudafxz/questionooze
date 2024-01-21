@@ -17,6 +17,7 @@ import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
 import { FiEdit } from 'react-icons/fi'
 import { AiFillWarning } from 'react-icons/ai'
 import { useSession } from '@/hooks/useSession'
+import axios from 'axios'
 
 const Questionnaire: React.FC = () => {
 	const token = useSession()
@@ -35,18 +36,19 @@ const Questionnaire: React.FC = () => {
 
 	const extractPdf = async () => {
 		try {
-			const response = await fetch(
+			const response = await axios.get(
 				build(`/pdf-parse/?url=${question?.file_path}`),
 				{
-					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${token?.token}`
+						Authorization: `Bearer ${token?.token}`,
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
 					}
 				}
 			)
 
-			const data = await response.json()
+			const data = response.data
 
 			if (typeof data.context === 'string') {
 				return data.context
