@@ -7,6 +7,15 @@ import { questionGenerator } from '../lib/ai.js'
 const router = express.Router()
 
 router.get('/pdf-parse', async (req, res) => {
+	res.header('*')
+	res.header(
+		'Access-Control-Allow-Methods',
+		'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+	)
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	)
 	try {
 		const { url } = req.query
 
@@ -30,6 +39,15 @@ router.get('/pdf-parse', async (req, res) => {
 })
 
 router.post('/question-generator', async (req, res) => {
+	res.header('Access-Control-Allow-Origin', '*')
+	res.header(
+		'Access-Control-Allow-Methods',
+		'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+	)
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	)
 	try {
 		const { config, context, blooms_taxonomy } = req.body
 		try {

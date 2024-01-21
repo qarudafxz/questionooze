@@ -62,6 +62,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 				{
 					headers: {
 						'Content-Type': 'application/json',
+						Accept: 'application/json',
 						Authorization: `Bearer ${token?.token}`,
 						'Access-Control-Allow-Origin': '*',
 						'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
