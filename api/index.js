@@ -48,6 +48,4 @@ app.post('/api/question-generator', async (req, res) => {
 	}
 })
 
-app.listen(PORT, () => {
-	console.log('Server running on port 5000')
-})
+export default app
