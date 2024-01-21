@@ -12,7 +12,6 @@ import CreateButton from './mini/CreateButton'
 import CreateModal from './mini/CreateModal'
 import Skeleton from '@mui/material/Skeleton'
 import { useQuestionnaireStore } from '@/store/questions'
-import { Link } from 'react-router-dom'
 
 const Dashboard: React.FC = () => {
 	const { setQuestions, questions, generatedQuestion, setGeneratedQuestion } =
@@ -62,10 +61,9 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<div
-			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
-			style={{
-				minHeight: '125vh'
-			}}
+			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} ${
+				!isMobile && 'min-h-[130vh]'
+			}`}
 		>
 			<div>
 				{/* Navbar */}
@@ -76,7 +74,7 @@ const Dashboard: React.FC = () => {
 					<div
 						className={`${
 							isMobile
-								? 'px-10 flex flex-col gap-4'
+								? 'px-10 flex flex-col gap-28'
 								: 'px-40 grid grid-cols-6 gap-5 items-center'
 						} mt-4`}
 					>
@@ -90,26 +88,21 @@ const Dashboard: React.FC = () => {
 									{loading ? (
 										<Skeleton variant="rectangular" width={'100%'} height={'100%'} />
 									) : (
-										<Link
-											key={question?.id}
-											to={`/dashboard/questionnaire/${question?.id}`}
-											state={{ id: question?.id }}
-										>
-											<QuestionsCards
-												id={question?.id}
-												title={question?.title}
-												description={question?.description}
-												questions={question?.questions}
-												file_id={question?.file_id}
-												file_url={question?.file_path}
-												created_at={question?.created_at}
-											/>
-										</Link>
+										<QuestionsCards
+											id={question?.id}
+											title={question?.title}
+											description={question?.description}
+											questions={question?.questions}
+											file_id={question?.file_id}
+											file_url={question?.file_path}
+											created_at={question?.created_at}
+											getQuestions={getQuestions}
+										/>
 									)}
 								</div>
 							))}
 					</div>
-					<CreateModal getQuestions={getQuestions} />
+					<CreateModal mode="create" getQuestions={getQuestions} />
 				</div>
 			</div>
 		</div>

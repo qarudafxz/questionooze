@@ -10,6 +10,7 @@ import { toast, Toaster } from 'sonner'
 import { createQuestionnaire } from '@/api/main/index'
 import { useUserStore } from '@/store/user'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { updateQuestionnaire } from '@/api/main/index'
 
 interface FormState {
 	title: string
@@ -17,10 +18,25 @@ interface FormState {
 }
 
 interface Props {
+	questionnaire_id?: string
+	title?: string
+	description?: string
+	file?: File
+	mode?: string
 	getQuestions: () => void
+	edit?: boolean
+	setIsEdit?: (args: boolean) => void
 }
 
-const CreateModal: React.FC<Props> = ({ getQuestions }) => {
+const CreateModal: React.FC<Props> = ({
+	questionnaire_id,
+	title,
+	description,
+	mode,
+	edit,
+	setIsEdit,
+	getQuestions
+}) => {
 	const navigate = useNavigate()
 	const { user } = useUserStore()
 	const isMobile = useMedia('(max-width: 640px)')
@@ -40,6 +56,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 	const handleCloseModal = (e: React.MouseEvent) => {
 		if (e.target === createModal.current) {
 			setIsCreate(false)
+		}
+
+		if (edit && e.target === createModal.current) {
+			setIsEdit && setIsEdit(false)
 		}
 	}
 
@@ -94,6 +114,36 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 		setSelectedFileName(file.name)
 	}
 
+	const handleEditQuestionnaire = async (e: React.MouseEvent) => {
+		e.preventDefault()
+
+		try {
+			setLoading(true)
+			const res = await updateQuestionnaire(
+				user.user_id,
+				questionnaire_id || '',
+				{
+					title: form.title,
+					description: form.description
+				},
+				dataOfFile as File,
+				selectedFileName as string
+			)
+
+			if (res?.status === 200) {
+				setLoading(false)
+				toast.success('Questionnaire updated successfully')
+
+				setTimeout(() => {
+					getQuestions()
+					edit && setIsEdit && setIsEdit(false)
+				}, 1500)
+			}
+		} catch (err) {
+			console.error(err)
+		}
+	}
+
 	const handleCreateQuestionnaire = async (e: React.MouseEvent) => {
 		e.preventDefault()
 
@@ -130,7 +180,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 
 	return (
 		<AnimatePresence>
-			{isCreate && (
+			{(isCreate || edit) && (
 				<div
 					onClick={handleCloseModal}
 					ref={createModal}
@@ -154,6 +204,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 							<h1 className="font-semibold">Questionnaire Title</h1>
 							<Input
 								type="text"
+								placeholder={title || form.title}
 								onChange={e => setForm({ ...form, title: e.target.value })}
 								className="w-full border border-zinc-300 rounded-md pl-3 py-1"
 								variant="flushed"
@@ -164,6 +215,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 							<h1 className="font-semibold">Questionnaire Description</h1>
 
 							<Textarea
+								placeholder={description || form.description}
 								onChange={e => setForm({ ...form, description: e.target.value })}
 								className={`w-full border border-zinc-300 rounded-md pl-3 py-1 h-[120px] ${
 									isMobile ? 'text-sm' : 'text-md'
@@ -206,7 +258,13 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 							</div>
 						</form>
 						<button
-							onClick={e => handleCreateQuestionnaire(e)}
+							onClick={e => {
+								if (mode === 'create') {
+									handleCreateQuestionnaire(e)
+								} else {
+									handleEditQuestionnaire(e)
+								}
+							}}
 							className={`bg-mid text-white py-2 rounded-md text-center font-bold w-full ${
 								loading && 'flex gap-4 place-items-center justify-center opacity-50'
 							}`}
@@ -221,10 +279,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 									>
 										<AiOutlineLoading3Quarters size={15} />
 									</motion.div>
-									Creating File Repository
+									{mode === 'edit' ? 'Updating' : 'Creating'} File Repository
 								</>
 							) : (
-								'Create File Repository'
+								(mode === 'edit' ? 'Update' : 'Create') + ' Questionnaire'
 							)}
 						</button>
 					</motion.div>
