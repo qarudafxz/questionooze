@@ -160,8 +160,8 @@ const Landing: React.FC = () => {
 				</div>
 			</div>
 			<div
-				className={`font-main flex flex-col justify-center items-center gap-4 py-20 ${
-					isMobile ? 'px-14' : 'px-36'
+				className={`font-main flex flex-col justify-center items-center gap-4 ${
+					isMobile ? 'px-14 py-24' : 'px-36 py-44'
 				} ${theme === 'light' ? 'bg-white' : 'bg-dark'}`}
 			>
 				<h1
