@@ -31,7 +31,7 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 	})
 	const [isDragOver, setDragOver] = useState(false)
 	const [selectedFileName, setSelectedFileName] = useState<string | null>(null)
-	const allowedFiles = ['pdf', 'pptx']
+	const allowedFiles = ['pdf']
 	const createModal = useRef<HTMLDivElement>(null)
 	const fileInput = useRef<HTMLInputElement>(null)
 	const [dataOfFile, setDataOfFile] = useState<File | null>(null)
@@ -64,8 +64,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 			if (allowedFiles.includes(fileExtension as string)) {
 				handleFileRead(droppedFile)
 			} else {
-				toast.error('Invalid file format. Please upload a PDF or PPT file only.')
-				console.error('Invalid file format. Please upload a PDF or PPTX file.')
+				toast.error(
+					'Invalid file format. Please upload a PDF file only. Other file formats will be available soon'
+				)
+				console.error('Invalid file format. Please upload a PDF file.')
 			}
 		})
 	}
@@ -79,8 +81,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 			if (allowedFiles.includes(fileExtension as string)) {
 				handleFileRead(selectedFile)
 			} else {
-				toast.error('Invalid file format. Please upload a PDF or PPT file only.')
-				console.error('Invalid file format. Please upload a PDF or PPTX file.')
+				toast.error(
+					'Invalid file format. Please upload a PDF file only. Other file formats will be available soon'
+				)
+				console.error('Invalid file format. Please upload a PDF file.')
 			}
 		}
 	}
@@ -217,10 +221,10 @@ const CreateModal: React.FC<Props> = ({ getQuestions }) => {
 									>
 										<AiOutlineLoading3Quarters size={15} />
 									</motion.div>
-									Creating questionnaire
+									Creating File Repository
 								</>
 							) : (
-								'Create new questionnaire'
+								'Create File Repository'
 							)}
 						</button>
 					</motion.div>

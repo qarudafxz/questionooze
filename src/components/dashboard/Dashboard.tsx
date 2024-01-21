@@ -15,7 +15,8 @@ import { useQuestionnaireStore } from '@/store/questions'
 import { Link } from 'react-router-dom'
 
 const Dashboard: React.FC = () => {
-	const { setQuestions, questions } = useQuestionnaireStore()
+	const { setQuestions, questions, generatedQuestion, setGeneratedQuestion } =
+		useQuestionnaireStore()
 	const { user, setUser } = useUserStore()
 	const [loading, setLoading] = useState(false)
 
@@ -27,7 +28,6 @@ const Dashboard: React.FC = () => {
 		getQuestionnaires(user?.user_id)
 			.then(res => {
 				setQuestions(res?.fileData || ([] as Questionnaire[]))
-				console.log(questions)
 				setTimeout(() => {
 					setLoading(false)
 				}, 1200)
@@ -53,6 +53,12 @@ const Dashboard: React.FC = () => {
 		setLoading(true)
 		getQuestions()
 	}, [user])
+
+	useEffect(() => {
+		if (generatedQuestion) {
+			setGeneratedQuestion('')
+		}
+	}, [generatedQuestion])
 
 	return (
 		<div

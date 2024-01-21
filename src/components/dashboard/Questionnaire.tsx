@@ -14,8 +14,8 @@ import PDFPPTViewer from './mini/PDFPPTViewer'
 import { build } from '@/utils/build'
 import { formatter } from '@/libs/generatedQuestionFormatter'
 import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
-import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
 import { FiEdit } from 'react-icons/fi'
+import { AiFillWarning } from 'react-icons/ai'
 import { useSession } from '@/hooks/useSession'
 
 const Questionnaire: React.FC = () => {
@@ -29,7 +29,9 @@ const Questionnaire: React.FC = () => {
 	const [question, setQuestion] = useState<Questionnaire>()
 	const [extractedPdf, setExtractedPdf] = useState<string>('')
 	const [editQuestions, setEditQuestions] = useState(false)
-	const formattedQuestions = formatter(generatedQuestion)
+	const formattedQuestions = formatter(
+		generatedQuestion || question?.questions || ''
+	)
 
 	const extractPdf = async () => {
 		try {
@@ -47,7 +49,6 @@ const Questionnaire: React.FC = () => {
 			const data = await response.json()
 
 			if (typeof data.context === 'string') {
-				console.log('Extracted content from PDF: ', data.context)
 				return data.context
 			}
 
@@ -74,17 +75,6 @@ const Questionnaire: React.FC = () => {
 			})
 	}, [question?.file_path])
 
-	useEffect(() => {
-		const update = async () => {
-			await addGeneratedQuestionToQuestionnaire(
-				id,
-				extractedPdf,
-				formattedQuestions
-			)
-		}
-		if (formattedQuestions && extractedPdf) update()
-	}, [formattedQuestions, extractedPdf, id])
-
 	return (
 		<div
 			className={`${theme === 'light' ? 'bg-white' : 'bg-dark'} w-full`}
@@ -108,7 +98,7 @@ const Questionnaire: React.FC = () => {
 					>
 						{/* For Generation */}
 						<div className="col-span-3">
-							<ConfigPanel extracted={extractedPdf} />
+							<ConfigPanel extracted={extractedPdf} questionnaire_id={id} />
 						</div>
 						{/* For pdf/ppt preview */}
 						<div className="col-span-5">
@@ -128,15 +118,23 @@ const Questionnaire: React.FC = () => {
 									</button>
 								</div>
 
-								{!editQuestions && generatedQuestion ? (
+								{!editQuestions && formattedQuestions ? (
 									<StreamingFormattedQuestions formattedQuestions={formattedQuestions} />
 								) : (
-									<textarea
-										readOnly={!editQuestions}
-										className="w-full h-screen"
-										defaultValue={formattedQuestions}
-										onChange={e => setGeneratedQuestion(e.target.value)}
-									/>
+									<div className="flex flex-col gap-2">
+										<div className="flex justify-between items-center w-full bg-dark p-3 rounded-md">
+											<AiFillWarning className="text-red-600" />
+											<h1 className="text-sm text-white font-main font-bold">
+												Don't delete the br tags{' '}
+											</h1>
+										</div>
+										<textarea
+											readOnly={!editQuestions}
+											className="w-full h-screen"
+											defaultValue={formattedQuestions}
+											onChange={e => setGeneratedQuestion(e.target.value)}
+										/>
+									</div>
 								)}
 							</div>
 						</div>

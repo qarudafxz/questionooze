@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navbar } from '@/components/landing'
@@ -11,12 +12,15 @@ import first from '@/assets/1.gif'
 import second from '@/assets/2.gif'
 import third from '@/assets/3.gif'
 import features from '@/data/features.json'
+import { data } from '@/data/data'
+import authors from '@/data/authors.json'
+import Authors from '@/components/landing/Authors'
 
 const Landing: React.FC = () => {
 	const { theme } = useToggle()
 	const navigate = useNavigate()
 	const [hovered, setHovered] = useState(false)
-	const [active, setActive] = useState('_1')
+	const [active, setActive] = useState('first')
 	const isMobile = useMedia('(max-width: 640px)')
 	const { navReference } = useNavStore()
 
@@ -152,6 +156,147 @@ const Landing: React.FC = () => {
 							src={active === 'first' ? first : active === 'second' ? second : third}
 							className="w-full rounded-md shadow-2xl"
 						/>
+					</div>
+				</div>
+			</div>
+			<div
+				className={`font-main flex flex-col justify-center items-center gap-4 py-20 ${
+					isMobile ? 'px-14' : 'px-36'
+				} ${theme === 'light' ? 'bg-white' : 'bg-dark'}`}
+			>
+				<h1
+					className={`text-center font-semibold ${
+						isMobile ? 'text-2xl' : 'text-4xl'
+					} ${theme === 'light' ? 'text-docs' : 'text-white'}`}
+				>
+					Supercharge your question crafting with AI
+				</h1>
+				<p
+					className={`font-main text-zinc-500 ${
+						isMobile
+							? 'text-md text-center mt-4'
+							: 'text-md text-center leading-[50px]'
+					} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
+				>
+					Features built to help you create questionnaires faster, more accurate, and
+					efficiently.
+				</p>
+				<div
+					className={`py-4 w-full mt-4 ${
+						isMobile ? 'flex flex-col gap-6' : 'grid grid-cols-3 gap-8'
+					} items-center`}
+				>
+					{data?.map((item: any, idx: number) => {
+						return (
+							<div key={idx} className="font-main flex flex-col gap-3">
+								{item?.icon}
+								<p className="text-mid">{item?.subtitle}</p>
+								<h1
+									className={`font-semibold ${isMobile ? 'text-lg' : 'text-xl'} ${
+										theme === 'light' ? 'text-docs' : ' text-zinc-200'
+									}`}
+								>
+									{item?.title}
+								</h1>
+								<p
+									className={`${theme === 'light' ? 'text-zinc-500' : 'text-zinc-500'}`}
+								>
+									{item?.description}
+								</p>
+							</div>
+						)
+					})}
+				</div>
+			</div>
+			{/* About */}
+			<div
+				id="about"
+				className={`font-main flex flex-col gap-4 justify-between items-center ${
+					isMobile ? 'px-14' : 'px-36'
+				} ${theme === 'light' ? 'bg-dark' : 'bg-white'} py-20`}
+			>
+				<h1
+					className={`${
+						theme === 'light' ? 'text-zinc-300' : 'text-docs'
+					} font-bold ${isMobile ? 'text-lg' : 'text-3xl'}`}
+				>
+					About Questionooze
+				</h1>
+				<p
+					className={`font-main text-zinc-500 text-justify ${
+						isMobile ? 'text-sm mt-4' : 'text-md leading-[25px] mt-8'
+					} ${theme === 'light' ? 'text-docs' : 'text-zinc-200'} duration-150`}
+				>
+					<span className="font-bold">Questionooze</span> is a web application that
+					can generate questionnaires based on Bloom's Taxonomy using generative
+					artificial intelligence. This application aims to streamline and improve
+					the process of question generation for educational assessments. <br></br>
+					<br></br> This application will focus on creating questions that align with
+					the Bloom's Taxonomy categories: remember, understand, apply, analyze,
+					evaluate, and create. The study aims to create a user-friendly web
+					application, making it accessible to a wide range of users, including
+					students, teachers, and educational institutions. It includes the
+					implementation of PDF content extraction technology to extract pdf content
+					to text, thus streamlining the question generation process. The research is
+					also focused on improving learning outcomes by promoting critical thinking,
+					deep understanding, and retention of information through thought-provoking
+					questions. Time efficiency, accessibility to high-quality questions, and
+					alignment with learning objectives are key objectives of this study.
+					Moreover, it extends to addressing challenges faced by educators in
+					creating challenging and thought-provoking questions.
+				</p>
+
+				<div className="mt-36">
+					<h1
+						className={`${
+							theme === 'light' ? 'text-zinc-500' : 'text-docs'
+						} text-center ${isMobile ? 'text-xl' : 'text-2xl'} font-bold`}
+					>
+						Authors of Questionooze
+					</h1>
+
+					<div className="flex gap-10 items-center mt-10">
+						{authors?.map((author: any, idx: number) => {
+							return <Authors key={idx} idx={idx} name={author?.name} />
+						})}
+					</div>
+				</div>
+			</div>
+			{/* Footer */}
+			<div
+				className={`font-main flex flex-col gap-4 justify-between items-center ${
+					isMobile ? 'px-14' : 'px-36'
+				} ${theme === 'light' ? 'bg-dark' : 'bg-white'} py-36`}
+			>
+				<div className="w-2/4 text-center">
+					<div className="flex flex-col gap-3 justify-center place-items-center">
+						<h1
+							className={`${
+								theme === 'light' ? 'text-white' : 'text-docs'
+							} font-bold ${isMobile ? 'text-2xl' : 'text-4xl'}`}
+						>
+							Generate questions now.
+						</h1>
+						<h1
+							className={`${
+								theme === 'light' ? 'text-white' : 'text-docs'
+							} font-bold ${isMobile ? 'text-2xl' : 'text-4xl'}`}
+						>
+							Start using Questionooze today.
+						</h1>
+						<p
+							className={`font-main text-justify ${
+								isMobile ? 'text-sm mt-4' : 'text-md leading-[25px] mt-8'
+							} ${theme === 'light' ? 'text-zinc-300' : 'text-docs'} duration-150`}
+						>
+							Signing up is as easy as pie. It literally takes less than a minute.
+						</p>
+						<button
+							onClick={() => navigate('/login')}
+							className="bg-mid text-white px-4 py-2 rounded-md font-semibold mt-10 w-1/4"
+						>
+							Get Started
+						</button>
 					</div>
 				</div>
 			</div>

@@ -4,13 +4,10 @@
 		"path": "home"
 	},
 	{
-		"label": "Product",
+		"label": "Product and Features",
 		"path": "product"
 	},
-	{
-		"label": "Features",
-		"path": "features"
-	},
+
 	{
 		"label": "About",
 		"path": "about"

@@ -1,8 +1,10 @@
 export const formatter = (question: string): string => {
+	console.log(question)
 	// Split the input string into an array of lines
 	const lines = question.split('\n')
 
 	// Add <br> tags before each line starting with a number
+	//Add <br> tags before each line starting with "a." or "b." or "c." or "d."
 	const formattedLines = lines.map((line, index) => {
 		if (line.match(/^\d+\./)) {
 			// Format question line with additional spaces before choices

@@ -31,9 +31,9 @@ router.get('/pdf-parse', async (req, res) => {
 
 router.post('/question-generator', async (req, res) => {
 	try {
-		const { config, context } = req.body
+		const { config, context, blooms_taxonomy } = req.body
 		try {
-			const response = await questionGenerator(config, context)
+			const response = await questionGenerator(config, context, blooms_taxonomy)
 			return res.status(200).json(response)
 		} catch (err) {
 			console.error(err)

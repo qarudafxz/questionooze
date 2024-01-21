@@ -115,6 +115,7 @@ export const addGeneratedQuestionToQuestionnaire = async (
 	context: string,
 	question: string
 ) => {
+	console.log(id, context, question)
 	try {
 		const { data, error } = await supabase
 			.from('questionnaires')

@@ -13,12 +13,14 @@ import { build } from '@/utils/build'
 import { useQuestionnaireStore } from '@/store/questions'
 import { useSession } from '@/hooks/useSession'
 import { toast, Toaster } from 'sonner'
+import { addGeneratedQuestionToQuestionnaire } from '@/api/main'
 
 interface Props {
 	extracted: string | null
+	questionnaire_id: string | null
 }
 
-const ConfigPanel: React.FC<Props> = ({ extracted }) => {
+const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 	const { setGeneratedQuestion } = useQuestionnaireStore()
 	const [active, setActive] = useState(0)
 	const { theme } = useToggle()
@@ -39,6 +41,12 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 		'Situational'
 	]
 	const handleGenerateQuestionnaire = async () => {
+		const { category } = configuration
+
+		const keywords = data?.filter(item => {
+			return category?.includes(item?.category)
+		})
+
 		try {
 			setLoading(true)
 
@@ -50,6 +58,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 				},
 				body: JSON.stringify({
 					config: { ...configuration },
+					blooms_taxonomy: keywords,
 					context: extracted
 				})
 			}).then(async res => {
@@ -61,6 +70,13 @@ const ConfigPanel: React.FC<Props> = ({ extracted }) => {
 
 				setGeneratedQuestion(data?.content)
 				toast.success('Questions generated successfully')
+
+				//update the questions and context in the questionnaire table
+				await addGeneratedQuestionToQuestionnaire(
+					questionnaire_id,
+					extracted,
+					data?.content
+				)
 			})
 		} catch (err) {
 			toast.error(err.message)

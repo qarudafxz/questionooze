@@ -6,7 +6,9 @@ const StreamingFormattedQuestions: React.FC<{ formattedQuestions: string }> = ({
 	const [streamedText, setStreamedText] = useState<string>('')
 
 	useEffect(() => {
+		if (streamedText) setStreamedText('')
 		let index = 0
+
 		const interval = setInterval(() => {
 			setStreamedText(prevText => prevText + formattedQuestions[index])
 			index += 1
