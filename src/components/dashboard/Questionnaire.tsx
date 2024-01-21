@@ -47,6 +47,7 @@ const Questionnaire: React.FC = () => {
 			const data = await response.json()
 
 			if (typeof data.context === 'string') {
+				console.log('Extracted content from PDF: ', data.context)
 				return data.context
 			}
 
