@@ -5,6 +5,14 @@
 			"destination": "/api/server.js"
 		},
 		{
+			"source": "/pdf-parse",
+			"function": "pdf-parse"
+		},
+		{
+			"source": "/question-generator",
+			"function": "question-generator"
+		},
+		{
 			"source": "/(.*)",
 			"destination": "/index.html"
 		}
