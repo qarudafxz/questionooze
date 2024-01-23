@@ -113,9 +113,13 @@ const Questionnaire: React.FC = () => {
 									<h1
 										className={`font-bold font-head ${isMobile ? 'text-md' : 'text-xl'}`}
 									>
-										Generated Questions
+										{editQuestions && 'Editing '}Generated Questions
 									</h1>
-									<button onClick={() => setEditQuestions(!editQuestions)}>
+									<button
+										onClick={() => {
+											if (!editQuestions) setEditQuestions(true)
+										}}
+									>
 										<FiEdit />
 									</button>
 								</div>
@@ -136,6 +140,18 @@ const Questionnaire: React.FC = () => {
 											defaultValue={formattedQuestions}
 											onChange={e => setGeneratedQuestion(e.target.value)}
 										/>
+										<div className="flex justify-between gap-4 items-center w-full">
+											<button className="bg-dark py-2 w-2/4 px-4 text-center text-white rounded-md">
+												Confirm
+											</button>
+
+											<button
+												onClick={() => setEditQuestions(false)}
+												className="bg-red-500 py-2 w-2/4 px-4 text-center text-white rounded-md"
+											>
+												Cancel
+											</button>
+										</div>
 									</div>
 								)}
 							</div>
