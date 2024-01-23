@@ -1,11 +1,11 @@
 {
 	"routes": [
-		{ "src": "/pdf-parse", "destination": "/functions/pdf-parse" },
+		{ "src": "/pdf-parse", "dest": "/functions/pdf-parse" },
 		{
 			"src": "/question-generator",
-			"destination": "/functions/question-generator"
+			"dest": "/functions/question-generator"
 		},
-		{ "src": "/api/(.*)", "destination": "/api/server.js" },
-		{ "src": "/(.*)", "destination": "/index.html" }
+		{ "src": "/api/(.*)", "dest": "/api/server.js" },
+		{ "src": "/(.*)", "dest": "/index.html" }
 	]
 }
