@@ -1,20 +1,11 @@
 {
-	"rewrites": [
+	"routes": [
+		{ "src": "/pdf-parse", "destination": "/functions/pdf-parse" },
 		{
-			"source": "/api/(.*)",
-			"destination": "/api/server.js"
+			"src": "/question-generator",
+			"destination": "/functions/question-generator"
 		},
-		{
-			"source": "/pdf-parse",
-			"function": "pdf-parse"
-		},
-		{
-			"source": "/question-generator",
-			"function": "question-generator"
-		},
-		{
-			"source": "/(.*)",
-			"destination": "/index.html"
-		}
+		{ "src": "/api/(.*)", "destination": "/api/server.js" },
+		{ "src": "/(.*)", "destination": "/index.html" }
 	]
 }
