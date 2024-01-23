@@ -70,13 +70,14 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 				}
 			)
 
-			const data = response.data
-
 			if (response.status !== 200) {
-				throw new Error(data?.message || 'An error occurred')
+				toast.error('Error generating questionnaire')
+				throw new Error()
 			}
 
-			setGeneratedQuestion(data?.content)
+			setGeneratedQuestion(response?.data?.questions)
+
+			setLoading(false)
 			toast.success('Questions generated successfully')
 
 			// Update the questions and context in the questionnaire table
