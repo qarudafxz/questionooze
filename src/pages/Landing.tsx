@@ -96,12 +96,12 @@ const Landing: React.FC = () => {
 
 			{/* Product */}
 			<div
-				id="product"
 				className={`${theme === 'light' ? 'bg-[#111827]' : 'bg-white'} ${
 					isMobile ? 'px-10 py-24' : 'px-16 py-32'
 				} w-full flex flex-col items-center justify-center gap-8`}
 			>
 				<h1
+					id="product"
 					className={`text-center font-bold ${isMobile ? 'text-2xl' : 'text-5xl'} ${
 						theme === 'light' ? 'text-white' : 'text-docs'
 					}`}
@@ -210,12 +210,12 @@ const Landing: React.FC = () => {
 			</div>
 			{/* About */}
 			<div
-				id="about"
 				className={`font-main flex flex-col gap-4 justify-between items-center ${
 					isMobile ? 'px-14' : 'px-36'
 				} ${theme === 'light' ? 'bg-dark' : 'bg-white'} py-20`}
 			>
 				<h1
+					id="about"
 					className={`${
 						theme === 'light' ? 'text-zinc-300' : 'text-docs'
 					} font-bold ${isMobile ? 'text-lg' : 'text-3xl'}`}
@@ -292,11 +292,40 @@ const Landing: React.FC = () => {
 							Signing up is as easy as pie. It literally takes less than a minute.
 						</p>
 						<button
-							onClick={() => navigate('/login')}
+							onClick={() => navigate('/signup')}
 							className="bg-mid text-white px-4 py-2 rounded-md font-semibold mt-10 w-1/4"
 						>
 							Get Started
 						</button>
+					</div>
+				</div>
+				<div className="mt-10 w-full">
+					<div
+						className={`w-full h-[1px] ${
+							theme === 'light' ? 'bg-[#2f3a50]' : 'bg-zinc-300'
+						}`}
+					/>
+					<div
+						className={`mt-4 ${
+							isMobile
+								? 'grid grid-cols-2 justify-between items-center'
+								: 'flex justify-between items-center'
+						}`}
+					>
+						<h1
+							className={`font-bold ${theme === 'light' ? 'text-mid' : 'text-docs'} ${
+								isMobile ? 'text-lg' : 'text-2xl'
+							}`}
+						>
+							Questionooze
+						</h1>
+						<h1
+							className={`${isMobile ? 'text-md' : 'text-lg'} ${
+								theme === 'light' ? 'text-zinc-200' : 'text-zinc-500'
+							}`}
+						>
+							All rights reserved 2024
+						</h1>
 					</div>
 				</div>
 			</div>

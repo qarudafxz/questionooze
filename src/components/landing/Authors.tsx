@@ -6,6 +6,7 @@ import hans_d from '@/assets/authors/dark/hans.png'
 import yul_l from '@/assets/authors/light/yul.png'
 import yul_d from '@/assets/authors/dark/yul.png'
 import { useToggle } from '@/store/toggle'
+import { useMedia } from '@/hooks/useMedia'
 
 interface Props {
 	idx: number
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const Authors: React.FC<Props> = ({ idx, name }) => {
+	const isMobile = useMedia('(max-width: 640px)')
 	const { theme } = useToggle()
 	return (
 		<div
@@ -34,9 +36,13 @@ const Authors: React.FC<Props> = ({ idx, name }) => {
 						? hans_l
 						: yul_l
 				}
-				className="w-24 h-24 rounded-full"
+				className={`${isMobile ? 'w-10 h-10' : 'w-24 h-24'} rounded-full`}
 			/>
-			<h1 className={`${theme === 'light' ? 'text-white' : 'text-docs'}`}>
+			<h1
+				className={`${theme === 'light' ? 'text-white' : 'text-docs'} ${
+					isMobile ? 'text-[10px]' : 'text-md'
+				}`}
+			>
 				{name}
 			</h1>
 		</div>

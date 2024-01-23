@@ -75,7 +75,7 @@ const Login: React.FC = () => {
 							<Input
 								type="email"
 								onChange={e => setPayload({ ...payload, email: e.target.value })}
-								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-1"
+								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-2"
 								variant="flushed"
 								size="lg"
 							/>
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
 							<Input
 								type="password"
 								onChange={e => setPayload({ ...payload, password: e.target.value })}
-								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-1"
+								className="w-full mt-2 border border-zinc-300 rounded-md pl-3 py-2"
 								variant="flushed"
 								size="lg"
 							/>

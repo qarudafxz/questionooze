@@ -59,7 +59,7 @@ const QuestionsCards: React.FC<Props> = ({
 					</h1>
 				</Tooltip>
 			</Link>
-			<div className="flex items-center gap-4 px-3 bg-white pb-4 rounded-b-lg">
+			<div className="flex items-center gap-4 px-3 bg-white pb-4 rounded-b-lg w-full">
 				<p className={`mt-2 ${isMobile ? 'text-sm' : 'text-[11px]'}`}>
 					Uploaded on{' '}
 					{created_at &&
