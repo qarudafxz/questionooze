@@ -32,7 +32,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 		category: [],
 		typeOfQuestion: []
 	})
-
+	const [maxQuestions, setMaxQuestions] = useState(20)
 	const [loading, setLoading] = useState(false)
 
 	const typeOfQuestion = [
@@ -48,6 +48,8 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 		const keywords = data?.filter(item => {
 			return category?.includes(item?.category)
 		})
+
+		console.log(configuration)
 
 		try {
 			setLoading(true)
@@ -93,6 +95,18 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 			setLoading(false)
 		}
 	}
+
+	useEffect(() => {
+		if (configuration.typeOfQuestion.length < 2) {
+			setMaxQuestions(20)
+		} else if (configuration.typeOfQuestion.length < 3) {
+			setMaxQuestions(10)
+		} else if (configuration.typeOfQuestion.length < 4) {
+			setMaxQuestions(5)
+		} else if (configuration.typeOfQuestion.length < 5) {
+			setMaxQuestions(3)
+		}
+	}, [configuration.typeOfQuestion])
 
 	useEffect(() => {
 		const { numberOfQuestions, category, typeOfQuestion } = configuration || {}
@@ -147,7 +161,7 @@ const ConfigPanel: React.FC<Props> = ({ extracted, questionnaire_id }) => {
 							})
 						}
 						defaultValue={0}
-						max={20}
+						max={maxQuestions}
 						aria-label="Default"
 						valueLabelDisplay="auto"
 						color="secondary"
