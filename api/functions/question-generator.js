@@ -34,7 +34,7 @@ export default async (request, response) => {
 			})
 		})
 
-		const prompt = `Create a questionnaire with {numberOfQuestions} questions that align with the Bloom's Taxonomy category of {category} and the type of question of ${typeOfQuestion}. Use the following context to create the questions:
+		const prompt = `Create a questionnaire with ${numberOfQuestions} questions that align with the Bloom's Taxonomy category of ${category} and the type of question of ${typeOfQuestion}. Use the following context to create the questions:
 
 			${context}
 			
@@ -55,13 +55,13 @@ export default async (request, response) => {
 
 			I hope this updated prompt helps improve the accuracy of the generated questions! Let me know if you have any further questions or concerns.
 
-			P.S. Please follow to the number of questions you want to generate. For example, if you want to generate 5 questions, replace {numberOfQuestions} with 5.
+			P.S. Please follow to the number of questions you want to generate. For example, if you want to generate 5 questions, replace ${numberOfQuestions} with 5.
 		`
 
 		const result = await openai.chat.completions.create({
-			model: 'gpt-3.5-turbo',
+			model: 'gpt-4',
 			messages: [{ role: 'user', content: prompt }],
-			temperature: 0.7,
+			temperature: 0.2,
 			top_p: 1,
 			frequency_penalty: 0,
 			presence_penalty: 0,
