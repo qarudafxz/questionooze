@@ -53,6 +53,9 @@ export default async (request, response) => {
 			How does keyword1 relate to keyword2 in ${context}? a) Answer 1 b) Answer 2 c) Answer 3 d) Answer 4
 			Is the following statement true or false: ${category}? a) True b) False
 
+			After the question, provide also its answer in the following format:
+			<br>Answer: ${numberOfQuestions}. answer text
+
 			I hope this updated prompt helps improve the accuracy of the generated questions! Let me know if you have any further questions or concerns.
 
 			P.S. Please follow to the number of questions you want to generate. For example, if you want to generate 5 questions, replace ${numberOfQuestions} with 5.

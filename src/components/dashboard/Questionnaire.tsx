@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-extra-semi */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useToggle } from '@/store/toggle'
@@ -8,7 +9,6 @@ import { useQuestionnaireStore } from '@/store/questions'
 import Nav from './mini/Nav'
 import UserDetails from './mini/UserDetails'
 import { getSpecificQuestionnaire } from '@/api/main'
-import { Questionnaire } from '@/types/global'
 import ConfigPanel from './ConfigPanel'
 import PDFPPTViewer from './mini/PDFPPTViewer'
 import { build } from '@/utils/build'
@@ -17,7 +17,12 @@ import StreamingFormattedQuestions from './mini/StreamingFormattedQuestions'
 import { FiEdit } from 'react-icons/fi'
 import { AiFillWarning } from 'react-icons/ai'
 import { useSession } from '@/hooks/useSession'
+import { GrDocumentDownload } from 'react-icons/gr'
+import { Tooltip } from '@mui/material'
 import axios from 'axios'
+import { Questionnaire } from '@/types/global'
+import jsPDF from 'jspdf'
+import logo from '@/assets/logo.png'
 
 const Questionnaire: React.FC = () => {
 	const token = useSession()
@@ -33,6 +38,68 @@ const Questionnaire: React.FC = () => {
 	const formattedQuestions = formatter(
 		generatedQuestion || question?.questions || ''
 	)
+
+	const handleGeneratePDF = () => {
+		const pdf = new jsPDF()
+
+		pdf.addImage(logo, 'PNG', 20, 10, 15, 15)
+		pdf.setFontSize(18)
+		pdf.text('Questionnaire', 20, 50)
+		pdf.setFontSize(12)
+		pdf.text('Created on: ' + new Date().toLocaleDateString(), 20, 60)
+		pdf.setFontSize(14)
+		pdf.text('Questions:', 20, 90)
+
+		let yPos = 100 // Initial vertical position for questions
+		const pageWidth = pdf.internal.pageSize.width - 40 // Adjust for margins
+
+		/* eslint-disable-next-line*/
+		/* @ts-ignore */
+		const splitTextToLines = (text, maxWidth) => {
+			return pdf.splitTextToSize(text, maxWidth)
+		}
+
+		const questionSpacing = 5
+		const optionSpacing = 0.5
+		const additionalSpacing = 5
+
+		const formattedQuestionsArray = formattedQuestions.split('<br>')
+		formattedQuestionsArray.forEach((question, _index) => {
+			const lines = splitTextToLines(question, pageWidth)
+			let isFirstOption = true
+
+			/* eslint-disable-next-line*/
+			/* @ts-ignore */
+			lines.forEach((line, lineIndex) => {
+				if (yPos > pdf.internal.pageSize.height - 10) {
+					pdf.addPage()
+					yPos = 20
+				}
+				pdf.text(line, 20, yPos)
+
+				if (lineIndex === 0) {
+					yPos += questionSpacing
+				} else {
+					if (isFirstOption) {
+						isFirstOption = false
+						yPos += questionSpacing
+					} else {
+						yPos += optionSpacing
+					}
+				}
+			})
+
+			yPos += additionalSpacing
+		})
+
+		pdf.save(
+			`Questionnaire_${new Date().toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			})}.pdf`
+		)
+	}
 
 	const extractPdf = async () => {
 		try {
@@ -107,7 +174,7 @@ const Questionnaire: React.FC = () => {
 							<PDFPPTViewer pdf_ppt={question?.file_path} />
 						</div>
 						{/* For generated questions */}
-						<div className="col-span-3 h-screen overflow-y-auto bg-">
+						<div className="col-span-3 h-screen overflow-y-auto border border-zinc-400 rounded-md p-3">
 							<div className={`${theme === 'dark' ? 'bg-white' : ''} p-4 rounded-md`}>
 								<div className="flex justify-between items-center mb-4">
 									<h1
@@ -115,17 +182,30 @@ const Questionnaire: React.FC = () => {
 									>
 										{editQuestions && 'Editing '}Generated Questions
 									</h1>
-									<button
-										onClick={() => {
-											if (!editQuestions) setEditQuestions(true)
-										}}
-									>
-										<FiEdit />
-									</button>
+									<div className="flex gap-5 items-center">
+										<Tooltip title="Download Questionnaire" placement="top">
+											<button onClick={handleGeneratePDF}>
+												<GrDocumentDownload />
+											</button>
+										</Tooltip>
+										<Tooltip title="Edit Questionnaire" placement="top">
+											<button
+												onClick={() => {
+													if (!editQuestions) setEditQuestions(true)
+												}}
+											>
+												<FiEdit />
+											</button>
+										</Tooltip>
+									</div>
 								</div>
 
 								{!editQuestions && formattedQuestions ? (
-									<StreamingFormattedQuestions formattedQuestions={formattedQuestions} />
+									<div>
+										<StreamingFormattedQuestions
+											formattedQuestions={formattedQuestions}
+										/>
+									</div>
 								) : (
 									<div className="flex flex-col gap-2">
 										<div className="flex justify-between items-center w-full bg-dark p-3 rounded-md">
