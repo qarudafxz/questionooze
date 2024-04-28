@@ -13,8 +13,6 @@ import second from '@/assets/2.gif'
 import third from '@/assets/3.gif'
 import features from '@/data/features.json'
 import { data } from '@/data/data'
-import authors from '@/data/authors.json'
-import Authors from '@/components/landing/Authors'
 
 const Landing: React.FC = () => {
 	const { theme } = useToggle()
@@ -245,22 +243,6 @@ const Landing: React.FC = () => {
 					Moreover, it extends to addressing challenges faced by educators in
 					creating challenging and thought-provoking questions.
 				</p>
-
-				<div className="mt-36">
-					<h1
-						className={`${
-							theme === 'light' ? 'text-zinc-500' : 'text-docs'
-						} text-center ${isMobile ? 'text-xl' : 'text-2xl'} font-bold`}
-					>
-						Authors of Questionooze
-					</h1>
-
-					<div className="flex gap-10 items-center mt-10">
-						{authors?.map((author: any, idx: number) => {
-							return <Authors key={idx} idx={idx} name={author?.name} />
-						})}
-					</div>
-				</div>
 			</div>
 			{/* Footer */}
 			<div
